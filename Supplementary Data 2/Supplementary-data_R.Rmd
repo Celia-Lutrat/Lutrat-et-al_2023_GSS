@@ -1,0 +1,2556 @@
+---
+title: "Supplementary Data 2: Detailed statistical outputs"
+output: 
+  pdf_document: 
+    toc: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = T, message = F, warning = F, comment = NA)
+```
+
+# Initial settings
+
+## R version
+
+platform       x86_64-w64-mingw32          
+arch           x86_64                      
+os             mingw32                     
+system         x86_64, mingw32
+major          4                           
+minor          1.0                         
+year           2021                        
+svn rev        80317                       
+language       R                           
+version.string R version 4.1.0 (2021-05-18)
+nickname       Camp Pontanezen   
+
+## Packages
+
+```{r, message=F, warning=F}
+set.seed(2501)
+
+libs <- c(
+  'plyr', 'dplyr', 'tidyr', 'stringr', 
+  'ggeffects', 'lme4', 'multcomp', 
+  'performance', 'reshape2', 'icenReg',
+  'survminer', 'survtools', 'survival',
+  'ggplot2', 'ggpubr', 'viridis', 'cowplot'
+)
+invisible(lapply(libs, library, character.only = T))
+```
+
+Versions: 
+
+plyr_1.8.6, dplyr_1.0.7, tidyr_1.1.3, stringr_1.4.0
+
+ggeffects_1.0.2, lme4_1.1-26, multcomp_1.4-16
+
+performance_0.7.0, reshape2_1.4.4, icenReg_2.0.15
+
+survminer_0.4.9, survtools_0.1, survival_3.2-11
+
+ggplot2_3.3.5, ggpubr_0.4.0, viridis_0.5.1
+
+## Plot common settings
+
+```{r}
+# Panel background color
+species.bg = c('Ae. aegypti' = 'white', 'Ae. albopictus' = 'grey')
+
+# Aeg line colors
+line.color.aeg = c('Bra (WT)' = "#24ff24", 'Aaeg-M' = "#004949", 
+                   'Aaeg-m' = "#009292", 'Aaeg-CS' = "#006ddb")
+
+# Alb line colors
+line.color.alb = c('BiA (WT)' = "#24ff24", 'Aal-M' = "#004949",
+                   'Aal-m' = "#009292", 'Aal-CS' = "#006ddb")
+
+# Set of colors 
+pal <- c('1' = "#000000", '2' = "#004949", '3' = "#009292", 
+         '4' = "#ff6db6", '5' = "#ffb6db", '6' = "#490092",
+         '7' = "#006ddb", '8' = "#b66dff", '9' = "#6db6ff",
+         '10' = "#b6dbff", '11' = "#920000", '12' = "#924900",
+         '13' = "#db6d00", '14' = "#24ff24", '15' = "#ffff6d")
+```
+
+\newpage
+
+# Figure 3
+
+## Sex ratio 
+
+
+### Ae. aegypti 
+
+
+#### Data 
+
+.
+```{r}
+# Data measurements
+sr.aeg.rep = read.csv('data/Sex-ratio_aeg.csv', header = T, sep = ';')
+sr.aeg.rep$sr = sr.aeg.rep$Males / (sr.aeg.rep$Males + sr.aeg.rep$Females) * 100
+sr.aeg.rep$Line = factor(sr.aeg.rep$Line, 
+                         levels = c('Bra (WT)', 'Aaeg-M', 'Aaeg-m' , 'Aaeg-CS'))
+sr.aeg.rep
+
+# Build binomial dataset 
+males.aeg = 
+  rbind(
+    data.frame(replicate = sr.aeg.rep[1,1], 
+               treatment = sr.aeg.rep[1,2], 
+               result = rep(1, sr.aeg.rep[1,3])),
+    data.frame(replicate = sr.aeg.rep[1,1], 
+               treatment = sr.aeg.rep[1,2], 
+               result = rep(0, sr.aeg.rep[1,4])))
+
+for(i in 2:nrow(sr.aeg.rep)){
+  males.aeg = 
+    rbind(
+      males.aeg,
+      data.frame(replicate = sr.aeg.rep[i,1], 
+                 treatment = sr.aeg.rep[i,2], 
+                 result = rep(1, sr.aeg.rep[i,3])),
+      data.frame(replicate = sr.aeg.rep[i,1], 
+                 treatment = sr.aeg.rep[i,2], 
+                 result = rep(0, sr.aeg.rep[i,4]))
+    )
+  
+}  
+males.aeg$treatment = factor(x = males.aeg$treatment, 
+                             levels = c('Bra (WT)', 'Aaeg-M', 'Aaeg-m' , 'Aaeg-CS'))
+males.aeg$Species = "Ae. aegypti"
+
+summary.sr.aeg = males.aeg %>% group_by(treatment) %>%
+  dplyr::summarise(value = n(),
+            N = max(replicate)) %>% data.frame() %>%
+  mutate(pos = c(1, 2, 3,4))
+
+head(males.aeg)
+```
+
+#### Model 
+
+.
+```{r}
+# Generalized linear model with Bernoulli distribution 
+sr.aeg = glm(formula = 'result ~ treatment', 
+             family = binomial,
+             data = males.aeg)
+summary(sr.aeg)
+
+# Pairwise comparison
+pairewise.aeg = glht(sr.aeg, mcp(treatment="Tukey"))
+
+summary(pairewise.aeg)
+```
+
+Replication
+
+```{r, echo=FALSE}
+summary.sr.aeg %>% 
+  dplyr::select(Line = treatment, N, n = value)
+```
+
+Model fit quality 
+
+```{r, message=FALSE, warning=F}
+check_model(sr.aeg)
+```
+
+#### Plot
+
+.
+```{r}
+# Extraction of the results
+pred.sr.aeg = ggpredict(model = sr.aeg, terms = c("treatment")) %>% data.frame()
+pred.sr.aeg$Species = "Ae. aegypti"
+
+
+# plot
+sr.plot.aeg = 
+  ggplot(data =  NULL) +
+  geom_point(data = sr.aeg.rep,
+             aes(x = jitter(as.numeric(factor(Line)), 
+                            factor = .5), 
+                 y = sr , color = Line), 
+             alpha = .6, size = 2) +
+  geom_point(data = pred.sr.aeg, 
+             aes(x = as.numeric(x), 
+                 y = predicted * 100), 
+             color = 'black', 
+             size = 1.5) + 
+  geom_errorbar(data = pred.sr.aeg, 
+                aes(x = as.numeric(x), 
+                    ymin = conf.low* 100, 
+                    ymax = conf.high* 100), 
+                color = 'black', 
+                width = 0.05) +
+  annotate(geom = 'text', 
+           x = summary.sr.aeg$pos, y = 15,
+           label = 'N = 3',
+           size = 4) +
+  annotate(geom = 'text', 
+           x = summary.sr.aeg$pos, y = 7,
+           label = paste0('n = ', summary.sr.aeg$value),
+           size = 3.5) +
+  annotate(geom = 'line', x = 1:4, y = 90) +
+  annotate(geom = 'text', x = 2.5, y = 95,
+           label = 'n.s.',
+           size = 4) +
+  annotate(geom = 'line', x = 1:3, y = 80) +
+  annotate(geom = 'text', x = 2, y = 85,
+           label = 'n.s.',
+           size = 4) +
+  annotate(geom = 'line', x = 1:2, y = 70) +
+  annotate(geom = 'text', x = 1.5, y = 75,
+           label = 'n.s.',
+           size = 4) +
+  scale_x_continuous(breaks = 1:4,
+                     labels = c("Bra (WT)",
+                                "Aaeg-M",
+                                "Aaeg-m",
+                                "Aaeg-CS"),
+                     limits = c(.5,4.5), guide = guide_axis(angle = 30)) +
+  scale_y_continuous(breaks = c(0, 50, 100), limits = c(0, 100)) +
+  scale_color_manual(values = line.color.aeg, labels = names(line.color.aeg)) +
+  labs(x = 'Line', 
+       y = 'Percentage of males (%)') + 
+  theme_classic() +
+  theme(panel.background = 
+          element_rect(fill = species.bg[names(species.bg)=="Ae. aegypti"]),
+        legend.position = 'none', 
+        axis.title.y = element_text(color = 'black', 
+                                          size = 12),
+        axis.text.y = element_text(size = 10,
+                                         hjust = 0, vjust = 0),
+        axis.title.x = element_text(color = 'black', 
+                                          size = 12),
+        axis.text.x = element_text(size = 10))
+
+sr.plot.aeg
+```
+
+```{r, include=FALSE}
+ggsave(sr.plot.aeg, filename = 'plot/sr-aeg.png', 
+       height = 7, width = 9, units = 'cm')
+```
+
+
+\newpage
+
+### Ae. albopictus
+
+#### Data
+
+.
+```{r}
+# Data measurements
+sr.alb.rep = read.table("data/Sex-ratio_albo.csv", header=T, sep=";")
+sr.alb.rep$sr = sr.alb.rep$Males / 
+  (sr.alb.rep$Males + sr.alb.rep$Females) * 100
+sr.alb.rep$Line = factor(sr.alb.rep$Line, 
+                         levels = c('BiA (WT)', 'Aal-M', 'Aal-m', 'Aal-CS'))
+sr.alb.rep
+
+# Build binomial dataset 
+males.albo = 
+  rbind(
+    data.frame(replicate = sr.alb.rep[1,1], 
+               treatment = sr.alb.rep[1,2], 
+               result = rep(1, sr.alb.rep[1,3])),
+    data.frame(replicate = sr.alb.rep[1,1], 
+               treatment = sr.alb.rep[1,2], 
+               result = rep(0, sr.alb.rep[1,4])))
+
+for(i in 2:nrow(sr.alb.rep)){
+  males.albo = 
+    rbind(
+      males.albo,
+      data.frame(replicate = sr.alb.rep[i,1], 
+                 treatment = sr.alb.rep[i,2], 
+                 result = rep(1, sr.alb.rep[i,3])),
+      data.frame(replicate = sr.alb.rep[i,1], 
+                 treatment = sr.alb.rep[i,2], 
+                 result = rep(0, sr.alb.rep[i,4]))
+    )
+  
+}  
+males.albo$treatment = factor(males.albo$treatment, 
+                             levels = c('BiA (WT)', 'Aal-M', 'Aal-m', 'Aal-CS'))
+males.albo$Species = "Ae. albopictus"
+
+summary.sr.alb = males.albo %>% 
+  group_by(treatment) %>%
+  dplyr::summarise(value = n()) %>% 
+  data.frame() %>%
+  mutate(pos = c(1, 2, 3,4))
+
+head(males.albo)
+```
+
+#### Model 
+
+.
+```{r}
+# Generalized linear model with Bernoulli distribution 
+sr.albo = glm(formula = 'result ~ treatment', 
+              family = binomial,
+              data = males.albo)
+summary(sr.albo)
+
+# Pairwise comparison
+pairewise.albo = glht(sr.albo, mcp(treatment="Tukey"))
+
+summary(pairewise.albo)
+```
+
+Replication
+
+```{r, echo=FALSE}
+sr.alb.rep %>% 
+  group_by(Line) %>%
+  dplyr::summarise(N = n()) %>%
+  left_join(.,
+            summary.sr.alb %>% 
+              dplyr::select(treatment, n = value),
+            by = c('Line' = 'treatment')) %>%
+  dplyr::select(Line, N, n)
+```
+
+Model fit quality 
+
+```{r, message=FALSE, warning=F}
+check_model(sr.albo)
+```
+
+#### Plot
+
+.
+```{r}
+# Extraction of the results
+pred.sr.albo = ggpredict(model = sr.albo, 
+                         terms = c("treatment")) %>% 
+  data.frame()
+pred.sr.albo$Species = "Ae. albopictus"
+
+
+# plot
+sr.plot.albo = 
+  ggplot(data =  NULL) + 
+  geom_point(data = sr.alb.rep,
+             aes(x = jitter(as.numeric(factor(Line)), 
+                            factor = .5),
+                 y = sr ,
+                 color = Line),
+             alpha = .6,
+             size = 2) +
+  geom_point(data = pred.sr.albo, 
+             aes(x = as.numeric(x), 
+                 y = predicted * 100), 
+             size = 1.5, color = 'black') + 
+  geom_errorbar(data = pred.sr.albo, 
+                aes(x = as.numeric(x), 
+                    ymin = conf.low* 100, 
+                    ymax = conf.high* 100), 
+                width = 0.05, 
+                color = 'black') +
+  annotate(geom = 'text', 
+           x = summary.sr.alb$pos, y = 15,
+           label = 'N = 3',
+           size = 4) +
+  annotate(geom = 'text', 
+           x = summary.sr.alb$pos, y = 7,
+           label = paste0('n = ', summary.sr.alb$value),
+           size = 3.5) +
+  annotate(geom = 'line', x = 1:4, y = 90) +
+  annotate(geom = 'text', x = 2.5, y = 95,
+           label = 'n.s.',
+           size = 4) +
+  annotate(geom = 'line', x = 1:3, y = 80) +
+  annotate(geom = 'text', x = 2, y = 85,
+           label = 'n.s.',
+           size = 4) +
+  annotate(geom = 'line', x = 1:2, y = 70) +
+  annotate(geom = 'text', x = 1.5, y = 75,
+           label = 'n.s.',
+           size = 4) +
+  scale_x_continuous(breaks = 1:4,
+                     labels = c("BiA (WT)",
+                                "Aal-M",
+                                "Aal-m",
+                                "Aal-CS"),
+                     limits = c(.5,4.5), 
+                     guide = guide_axis(angle = 30)) +
+  scale_y_continuous(breaks = c(0, 50, 100), limits = c(0, 100)) +
+  scale_color_manual(values = line.color.alb, 
+                     labels = names(line.color.alb)) +
+  labs(x = 'Line', 
+       y = 'Percentage of males (%)') + 
+  theme_classic() + 
+  theme(panel.background = 
+          element_rect(fill = species.bg[names(species.bg)=="Ae. albopictus"]),
+        legend.position = 'none', 
+        axis.title.y = element_text(color = 'black', 
+                                          size = 12),
+        axis.text.y = element_text(size = 10,
+                                         hjust = 0, vjust = 0),
+        axis.title.x = element_text(color = 'black', 
+                                          size = 12),
+        axis.text.x = element_text(size = 10))
+
+sr.plot.albo
+```
+
+```{r, include=FALSE}
+ggsave(sr.plot.albo, filename = 'plot/sr-albo.png', 
+       height = 7, width = 9, units = 'cm')
+```
+
+\newpage
+
+## Hatching rate
+
+
+### Ae. aegypti
+
+
+#### Data
+
+.
+```{r}
+# Data measurements
+hr.aeg = read.table("data/H-rate_aeg.csv", 
+                    header = T, sep = ";")
+hr.aeg$hr = hr.aeg$Larvae/hr.aeg$Eggs * 100
+hr.aeg$Line = factor(hr.aeg$Line, levels = c("Bra (WT)", 
+                                             "Aaeg-M", 
+                                             "Aaeg-m", 
+                                             "Aaeg-CS"))
+hr.aeg
+
+# Build binomial dataset 
+hatch.aegypti = 
+  rbind(
+    data.frame(replicate = hr.aeg[1,1],
+               treatment = hr.aeg[1,2],
+               result = rep(0, hr.aeg[1,5])),
+    data.frame(replicate = hr.aeg[1,1],
+               treatment = hr.aeg[1,2],
+               result = rep(1, hr.aeg[1,4])))
+
+for(i in 2:nrow(hr.aeg)){
+  hatch.aegypti = 
+    rbind(
+      hatch.aegypti,
+      data.frame(replicate = hr.aeg[i,1], 
+                 treatment = hr.aeg[i,2], 
+                 result = rep(0, hr.aeg[i,5])),
+      data.frame(replicate = hr.aeg[i,1], 
+                 treatment = hr.aeg[i,2], 
+                 result = rep(1, hr.aeg[i,4]))
+    )
+  
+}  
+hatch.aegypti$treatment=factor(hatch.aegypti$treatment, 
+                               levels = c("Bra (WT)", "Aaeg-M", "Aaeg-m", "Aaeg-CS"))
+hatch.aegypti$Species = 'Ae. aegypti'
+
+summary.hatch.aeg = hatch.aegypti %>% 
+  group_by(treatment) %>%
+  dplyr::summarise(value = n()) %>% 
+  data.frame() %>%
+  mutate(pos = c(1, 2, 3, 4))
+
+head(hatch.aegypti)
+```
+
+#### Model 
+
+.
+```{r}
+# Generalized linear model with Bernoulli distribution 
+hatch.aegypti_stat = glm(formula = 'result ~ treatment', 
+                         family = binomial,
+                         data = hatch.aegypti)
+summary(hatch.aegypti_stat)
+# Pairwise comparison
+pairewise.h.aeg = glht(hatch.aegypti_stat, 
+                       mcp(treatment="Tukey"))
+
+h.aeg<-summary(pairewise.h.aeg)
+
+h.aeg
+```
+
+Replication
+
+```{r, echo=FALSE}
+hr.aeg %>% group_by(Line) %>%
+  dplyr::summarise(N = n()) %>%
+  left_join(.,
+            summary.hatch.aeg %>% 
+              dplyr::select(treatment, n = value),
+            by = c('Line' = 'treatment')) %>%
+  dplyr::select(Treatment = Line, N, n)
+```
+
+Model fit quality 
+
+```{r, message=FALSE, warning=F}
+check_model(hatch.aegypti_stat)
+```
+
+#### Plot
+
+.
+```{r}
+# Extraction of the results
+pred.aeg = data.frame(ggpredict(model = hatch.aegypti_stat, 
+                                terms = c("treatment")))
+pred.aeg$x = factor(pred.aeg$x, 
+                    levels = c("Bra (WT)", 
+                               "Aaeg-M", 
+                               "Aaeg-m", 
+                               "Aaeg-CS"))
+
+pred.aeg$Species = 'Ae. aegypti'
+
+
+# plot
+hr.plot.aeg = 
+  ggplot(data =  NULL) + 
+  geom_point(data = hr.aeg,
+             aes(x = jitter(as.numeric(Line), 
+                            factor = 1),
+                 y = hr, 
+                 color = Line),
+             size = 2, alpha = .6) +
+  geom_point(data = pred.aeg, 
+             aes(x = as.numeric(x), 
+                 y = predicted * 100), 
+             size = 1.5 , 
+             color = 'black') + 
+  geom_errorbar(data = pred.aeg, 
+                aes(x = as.numeric(x), 
+                    ymin = conf.low* 100, 
+                    ymax = conf.high* 100), 
+                width = 0.05, 
+                color = 'black') + 
+  annotate(geom = 'text', 
+           x = summary.hatch.aeg$pos, y = 15,
+           label = 'N = 3',
+           size = 4) +
+  annotate(geom = 'text', 
+           x = summary.hatch.aeg$pos, y = 7,
+           label = paste0('n = ', summary.hatch.aeg$value),
+           size = 3.5) +
+  annotate(geom = 'line', x = 1:4, y = 100) +
+  annotate(geom = 'text', x = 2.5, y = 105,
+           label = '***',
+           size = 4) +
+  annotate(geom = 'line', x = 1:3, y = 90) +
+  annotate(geom = 'text', x = 2, y = 95,
+           label = '***',
+           size = 4) +
+  annotate(geom = 'line', x = 1:2, y = 80) +
+  annotate(geom = 'text', x = 1.5, y = 85,
+           label = 'n.s.',
+           size = 4) +
+  scale_x_continuous(breaks = 1:4, 
+                     labels = c("Bra (WT)", 
+                                "Aaeg-M", 
+                                "Aaeg-m",
+                                "Aaeg-CS"), 
+                     limits = c(.5,4.5), 
+                     guide = guide_axis(angle = 30)) +
+  scale_y_continuous(breaks = c(0, 25, 50, 75, 100), 
+                     limits = c(0, 100)) +
+  scale_color_manual(values = line.color.aeg, 
+                     labels = names(line.color.aeg)) +
+  labs(x = 'Line', 
+       y = 'Hatched eggs (%)') + 
+  theme_classic() +
+  theme(legend.position = 'none', 
+        axis.title.y = element_text(color = 'black', 
+                                          size = 12),
+        axis.text.y = element_text(size = 10,
+                                         hjust = 0, vjust = 0),
+        axis.title.x = element_text(color = 'black', 
+                                          size = 12),
+        axis.text.x = element_text(size = 10))
+
+hr.plot.aeg
+```
+
+```{r, include=FALSE}
+ggsave(hr.plot.aeg, filename = 'plot/H-rate-aeg.png', 
+       height = 7, width = 9, units = 'cm')
+```
+
+\newpage
+
+### Ae. albopictus
+
+#### Data
+
+.
+```{r}
+# Data measurements
+hr.alb = read.table("data/H-rate_albo.csv", 
+                    header = T, sep = ";")
+hr.alb$hr = hr.alb$Larvae/hr.alb$Eggs * 100
+hr.alb$Line = factor(hr.alb$Line, 
+                     levels = c("BiA (WT)", 
+                                "Aal-M", 
+                                "Aal-m", 
+                                "Aal-CS"))
+
+hr.alb
+
+# Build binomial dataset 
+hatch.albo = 
+  rbind(
+    data.frame(replicate = hr.alb[1,1],
+               treatment = hr.alb[1,2],
+               result = rep(0, hr.alb[1,5])),
+    data.frame(replicate = hr.alb[1,1],
+               treatment = hr.alb[1,2],
+               result = rep(1, hr.alb[1,4])))
+
+for(i in 2:nrow(hr.alb)){
+  hatch.albo = 
+    rbind(
+      hatch.albo,
+      data.frame(replicate = hr.alb[i,1], 
+                 treatment = hr.alb[i,2], 
+                 result = rep(0, hr.alb[i,5])),
+      data.frame(replicate = hr.alb[i,1], 
+                 treatment = hr.alb[i,2], 
+                 result = rep(1, hr.alb[i,4]))
+    )
+  
+}  
+hatch.albo$treatment = factor(hatch.albo$treatment,
+                              levels = c("BiA (WT)", "Aal-M", "Aal-m", "Aal-CS"))
+hatch.albo$Species = 'Ae. albopictus'
+
+summary.hatch.albo = hatch.albo %>%
+  group_by(treatment) %>%
+  dplyr::summarise(value = n()) %>% 
+  data.frame() %>%
+  mutate(pos = c(1, 2, 3, 4))
+
+head(hatch.albo)
+```
+
+#### Model 
+
+.
+```{r}
+# Generalized linear model with Bernoulli distribution 
+hatch.albo_stat = glm(formula = 'result ~ treatment', 
+                      family = binomial,
+                      data = hatch.albo)
+summary(hatch.albo_stat)
+
+# Pairwise comparison
+pairewise.h.alb = glht(hatch.albo_stat, 
+                       mcp(treatment="Tukey"))
+
+h.albo <- summary(pairewise.h.alb)
+
+h.albo
+```
+
+Replication
+
+```{r, echo=FALSE}
+hr.alb %>% group_by(Line) %>%
+  dplyr::summarise(N = n()) %>%
+  left_join(.,
+            summary.hatch.albo %>% 
+              dplyr::select(treatment, n = value),
+            by = c('Line' = 'treatment')) %>%
+  dplyr::select(Treatment = Line, N, n)
+```
+
+Model fit quality 
+
+```{r, message=FALSE, warning=F}
+check_model(hatch.albo_stat)
+```
+
+#### Plot
+
+.
+```{r}
+# Extraction of the results
+pred.alb = data.frame(ggpredict(model = hatch.albo_stat, 
+                                terms = c("treatment")))
+pred.alb$x = as.character(pred.alb$x)
+pred.alb$x = factor(pred.alb$x, 
+                    levels = c("BiA (WT)", 
+                               "Aal-M", 
+                               "Aal-m",
+                               "Aal-CS"))
+pred.alb$Species = 'Ae. albopictus'
+pred.alb$group = as.factor(2)
+
+# plot
+hr.plot.alb = 
+  ggplot(data =  NULL) + 
+  geom_point(data = hr.alb,
+             aes(x = jitter(as.numeric(Line), 
+                            factor = 1),
+                 y = hr, color = Line),
+             size = 2, alpha = .6) +
+  geom_point(data = pred.alb, 
+             aes(x = as.numeric(x), 
+                 y = predicted * 100), 
+             size = 1.5 , color = 'black') + 
+  geom_errorbar(data = pred.alb, 
+                aes(x = as.numeric(x), 
+                    ymin = conf.low* 100, 
+                    ymax = conf.high* 100), 
+                width = 0.05, 
+                color = 'black') + 
+  annotate(geom = 'text', 
+           x = summary.hatch.albo$pos, y = 15,
+           label = 'N = 5',
+           size = 4) +
+  annotate(geom = 'text', 
+           x = summary.hatch.albo$pos, y = 7,
+           label = paste0('n = ', summary.hatch.albo$value),
+           size = 3.5) +
+  annotate(geom = 'line', x = 1:4, y = 100) +
+  annotate(geom = 'text', x = 2.5, y = 105,
+           label = '*',
+           size = 4) +
+  annotate(geom = 'line', x = 1:3, y = 90) +
+  annotate(geom = 'text', x = 2, y = 95,
+           label = 'n.s.',
+           size = 4) +
+  annotate(geom = 'line', x = 1:2, y = 80) +
+  annotate(geom = 'text', x = 1.5, y = 85,
+           label = '**',
+           size = 4) +
+  scale_x_continuous(breaks = 1:4, 
+                     labels = c("BiA (WT)",
+                                "Aal-M", 
+                                "Aal-m",
+                                "Aal-CS"), 
+                     limits = c(.5,4.5), guide = guide_axis(angle = 30)) +
+  scale_y_continuous(breaks = c(0, 25, 50, 75, 100), limits = c(0, 100)) +
+  scale_color_manual(values = line.color.alb, 
+                     labels = names(line.color.alb)) +
+  labs(x = 'Line', 
+       y = 'Hatched eggs (%)') + 
+  theme_classic() +
+  theme(panel.background = 
+          element_rect(fill = species.bg[names(species.bg)=="Ae. albopictus"]),
+        legend.position = 'none', 
+        axis.title.y = element_text(color = 'black', 
+                                          size = 12),
+        axis.text.y = element_text(size = 10,
+                                         hjust = 0, vjust = 0),
+        axis.title.x = element_text(color = 'black', 
+                                          size = 12),
+        axis.text.x = element_text(size = 10))
+
+hr.plot.alb
+```
+
+```{r, include=FALSE}
+ggsave(hr.plot.alb, 
+       filename = 'plot/H-rate-albo.png', 
+       height = 7, width = 9, units = 'cm')
+```
+
+\newpage 
+
+## Fecundity 
+
+### Ae. aegypti
+
+#### Data
+
+.
+```{r}
+fecund_aeg = read.table("data/Fecundity_aeg.csv", 
+                        header=TRUE, sep=";")
+
+fecund_aeg = fecund_aeg %>% 
+  filter(Eggs != "NA")
+
+fecund_aeg$Line = factor(fecund_aeg$Line, 
+                         levels = c('Bra (WT)', 'Aaeg-M', 'Aaeg-m', 'Aaeg-CS'))
+
+fecund_aeg$Species = "Ae. aegypti"
+
+fecund_aeg
+
+fecund.summary.aeg = fecund_aeg %>% 
+  group_by(Line) %>% 
+  dplyr::summarise(value = n()) %>% 
+  data.frame() %>%
+  mutate(pos = c(1, 2, 3, 4))
+
+```
+
+#### Model
+.
+4 models were tested and compared for analyzing fecundity data: a Generalized Linear Model with Poisson distribution (mod0), a Negative Binomial Generalized Linear Model (mod), a Hurdle model with negative binomial distribution (mod1) and a Hurdle model with Poisson distribution (mod2). These models were compared using the "compare_performance" function of package "performance". From this comparison of model fits, the Hurdle model with negative binomial distribution (mod1) was chosen.
+
+```{r}
+# Generalized Linear Model with Poisson distribution (mod0) 
+mod0 = glm(formula = 'Eggs ~ Line', 
+                     data = fecund_aeg, family = 'poisson')
+
+check_distribution(mod0)
+check_homogeneity(mod0)
+check_zeroinflation(mod0)
+check_singularity(mod0)
+
+# Negative Binomial Generalized Linear Model (mod)
+mod = MASS::glm.nb(formula = 'Eggs ~ Line', 
+                     data = fecund_aeg)
+
+# Hurdle model with negative binomial distribution (mod1)
+mod1 = pscl::hurdle(Eggs ~ Line, 
+             data = fecund_aeg, 
+             dist = 'negbin')
+
+# Hurdle model with negative binomial distribution (mod1)
+mod2 = pscl::hurdle(Eggs ~ Line, 
+             data = fecund_aeg, 
+             dist = 'poisson')
+
+# Performance comparison
+performance::compare_performance(mod0, mod, mod1, mod2)
+
+summary(mod1)
+
+emmeans::emmeans(mod1, specs = 'Line', mode = 'response')
+
+# Pairwise comparison
+pred.fecund.aeg = 
+  emmeans::emmeans(mod1, specs = 'Line', mode = 'response') %>%
+  data.frame() %>%
+  dplyr::select(
+    Line, mean.pro = emmean, 
+    sd.pro = SE, 
+    conf.inf = lower.CL,
+    conf.sup = upper.CL
+  )
+
+head(pred.fecund.aeg)
+```
+
+Replication
+
+```{r, echo=FALSE}
+fecund.summary.aeg %>%
+  dplyr::select(Line, N = value)
+```
+
+#### Plot
+
+.
+```{r}
+fecund.plot.aeg  = ggplot(data=NULL) + 
+  geom_point(data = fecund_aeg, 
+             aes(x = jitter(as.numeric(Line)), 
+                 y = Eggs, color = Line), 
+             size = 2, show.legend = FALSE, alpha = 0.6) + 
+  geom_point(data = pred.fecund.aeg, 
+             aes(x = as.numeric(Line), 
+                 y = mean.pro), 
+             size = 1.5, show.legend = FALSE,
+             color = 'black') + 
+  geom_errorbar(data = pred.fecund.aeg, 
+                aes(x = as.numeric(Line), 
+                    ymin = conf.inf, 
+                    ymax = conf.sup), width = 0.05,
+                color = 'black') +
+  annotate(geom = 'text', x= fecund.summary.aeg$pos, y = -15, 
+           label = paste0('N = ', fecund.summary.aeg$value),
+           size = 4) +
+  annotate(geom = 'line', x= 1:2, y=170) +
+  annotate(geom = 'text', x= 1.5, y=185,
+           label = 'n.s. (n.s.)',
+           size = 4) +
+  annotate(geom = 'line', x= 1:3, y=205) +
+  annotate(geom = 'text', x= 2, y=220,
+           label = 'n.s. (n.s.)',
+           size = 4) +
+  annotate(geom = 'line', x= 1:4, y=240) +
+  annotate(geom = 'text', x= 2.5, y=255,
+           label = '. (n.s.)',
+           size = 4) +
+  labs(x = 'Line', y = 'Number of eggs per female', 
+       color = "Line") +
+  scale_y_continuous(breaks = c(0, 50, 100, 150), labels = c(0, 50, 100, 150)) +
+  coord_cartesian(clip = 'off', ylim = c(-20,150)) + 
+  scale_color_manual(values = line.color.aeg, 
+                     labels = names(line.color.aeg)) +
+  scale_x_continuous(guide = guide_axis(angle = 30), breaks = 1:4, 
+                     labels = c("Bra (WT)", "Aaeg-M", "Aaeg-m", "Aaeg-CS")) +
+  theme_classic() +
+  theme(legend.position = 'none', 
+        axis.title.y = element_text(color = 'black', 
+                                          size = 12),
+        axis.text.y = element_text(size = 10,
+                                         hjust = 0, vjust = 0),
+        axis.title.x = element_text(color = 'black', 
+                                          size = 12),
+        axis.text.x = element_text(size = 10),
+        plot.margin = unit(c(2,0,0,0), 'cm'))
+fecund.plot.aeg
+```
+
+```{r, include=FALSE}
+ggsave(fecund.plot.aeg, 
+       filename = 'plot/fecundity-aeg.png', 
+       height = 7, width = 9, units = 'cm')
+```
+
+\newpage
+
+### Ae. albopictus
+
+#### Data
+
+.
+```{r}
+fecund_albo = read.table("data/Fecundity_albo.csv", header=TRUE, sep=";")
+
+fecund_albo = fecund_albo %>% filter(Eggs != "NA")
+
+fecund_albo$Line = factor(fecund_albo$Line, 
+                          levels = c('BiA (WT)', 'Aal-M', 'Aal-m', 'Aal-CS'))
+
+fecund_albo$Species = "Ae. albopictus"
+
+fecund_albo
+
+fecund.summary.alb = fecund_albo %>%
+  group_by(Line) %>% 
+  dplyr::summarise(value = n()) %>% 
+  data.frame() %>%
+  mutate(pos = c(1, 2, 3, 4))
+```
+
+#### Model
+
+.
+
+Similarly to Ae. aegypti, a Hurdle model with negative binomial distribution (mod1) was chosen for analizing fecundity data in Ae. albopictus.
+
+```{r}
+# Generalized Linear Model with Poisson distribution (mod0) 
+mod0 = glm(formula = 'Eggs ~ Line', 
+                     data = fecund_albo, family = 'poisson')
+check_distribution(mod0)
+check_homogeneity(mod0)
+check_zeroinflation(mod0)
+check_singularity(mod0)
+
+# Negative Binomial Generalized Linear Model (mod)
+mod = MASS::glm.nb(formula = 'Eggs ~ Line', 
+                  data = fecund_albo)
+
+# Hurdle model with negative binomial distribution (mod1)
+
+mod1 = pscl::hurdle(Eggs ~ Line, 
+             data = fecund_albo, 
+             dist = 'negbin')
+
+#Hurdle model with Poisson distribution (mod2)
+mod2 = pscl::hurdle(Eggs ~ Line, 
+             data = fecund_albo, 
+             dist = 'poisson')
+
+# Performance comparison
+performance::compare_performance(mod0, mod, mod1, mod2)
+
+summary(mod1)
+
+emmeans::emmeans(mod1, specs = 'Line', mode = 'response')
+
+# Pairwise comparison
+pred.fecund.albo = 
+  emmeans::emmeans(mod1, specs = 'Line', mode = 'response') %>%
+  data.frame() %>%
+  dplyr::select(
+    Line, mean.pro = emmean, 
+    sd.pro = SE, 
+    conf.inf = lower.CL,
+    conf.sup = upper.CL
+  )
+
+head(pred.fecund.albo)
+```
+
+Replication
+
+```{r, echo=FALSE}
+fecund.summary.alb %>%
+  dplyr::select(Line, N = value)
+```
+
+#### Plot
+
+.
+```{r}
+fecund.plot.alb  = ggplot(data=NULL) + 
+  geom_point(data = fecund_albo, 
+             aes(x = jitter(as.numeric(Line)), 
+                 y = Eggs, color = Line), 
+             size = 2, show.legend = FALSE, alpha = 0.6) + 
+  geom_point(data = pred.fecund.albo, 
+             aes(x = as.numeric(Line), 
+                 y = mean.pro), 
+             size = 1.5, show.legend = FALSE,
+             color = 'black') + 
+  geom_errorbar(data = pred.fecund.albo, 
+                aes(x = as.numeric(Line), 
+                    ymin = conf.inf, 
+                    ymax = conf.sup), width = 0.05,
+                color = 'black') +
+  annotate(geom = 'text', x= fecund.summary.alb$pos, y = -15, 
+           label = paste0('N = ', fecund.summary.alb$value),
+           size = 4) +
+  annotate(geom = 'line', x= 1:2, y=170) +
+  annotate(geom = 'text', x= 1.5, y=185,
+           label = '*** (n.s.)',
+           size = 4) +
+  annotate(geom = 'line', x= 1:3, y=205) +
+  annotate(geom = 'text', x= 2, y=220,
+           label = '*** (.)',
+           size = 4) +
+  annotate(geom = 'line', x= 1:4, y=240) +
+  annotate(geom = 'text', x= 2.5, y=255,
+           label = 'n.s. (n.s.)',
+           size = 4) +
+  labs(x = 'Line', y = 'Number of eggs per female', 
+       color = "Line") +
+  scale_y_continuous(breaks = c(0, 50, 100, 150), labels = c(0, 50, 100, 150)) +
+  coord_cartesian(clip = 'off', ylim = c(-20,150)) + 
+  scale_color_manual(values = line.color.alb, 
+                     labels = names(line.color.alb)) +
+  scale_x_continuous(guide = guide_axis(angle = 30), breaks = 1:4, 
+                     labels = c("BiA (WT)", 
+                                "Aal-M", 
+                                "Aal-m",
+                                "Aal-CS")) +
+  theme_classic() +
+  theme(legend.position = 'none',
+        panel.background = element_rect(fill = "grey"), 
+        axis.title.y = element_text(color = 'black', 
+                                          size = 12),
+        axis.text.y = element_text(size = 10,
+                                         hjust = 0, vjust = 0),
+        axis.title.x = element_text(color = 'black', 
+                                          size = 12),
+        axis.text.x = element_text(size = 10),
+        plot.margin = unit(c(2,0,0,0), 'cm'))
+
+fecund.plot.alb
+```
+
+```{r, include=FALSE}
+ggsave(fecund.plot.alb, 
+       filename = 'plot/fecundity-aal.png', 
+       height = 7, width = 9, units = 'cm')
+```
+
+
+\newpage
+
+## Larva survival
+
+### Ae. aegypti
+
+#### Data 
+
+.
+```{r}
+surv.aeg.larv = read.table("data/Survival-larvae_aeg.csv", 
+                           sep = ";", header = T) 
+surv.aeg.larv = surv.aeg.larv %>%  
+  dplyr::select(Replicate, Line, larvae, adults)
+
+surv.aeg.larv$Species = "Ae. aegypti"
+
+surv.aeg.larv$Line = factor(surv.aeg.larv$Line, 
+                            levels = c('Bra (WT)', 'Aaeg-M', 'Aaeg-m', 'Aaeg-CS'))
+
+surv.aeg.larv$survie = surv.aeg.larv$adults/surv.aeg.larv$larvae * 100
+
+surv.aeg.larv
+```
+
+#### Model 
+
+.
+```{r}
+mod.tot.sl.aeg = lm(data=surv.aeg.larv, formula = survie ~ Line) 
+mod.tot.sl.aeg %>% summary()
+mod.tot.sl.aeg %>% aov %>% TukeyHSD()
+
+df.larv.aeg = ggpredict(mod.tot.sl.aeg) %>%
+  data.frame %>%
+  dplyr::select(
+    Line = Line.x, 
+    m = Line.predicted,
+    sd = Line.std.error,
+    conf.inf = Line.conf.low, 
+    conf.sup = Line.conf.high
+  )
+df.larv.aeg$Line = factor(df.larv.aeg$Line, 
+                          levels = c('Bra (WT)', 'Aaeg-M', 'Aaeg-m', 'Aaeg-CS'))
+
+df.larv.aeg
+```
+
+
+Replication
+
+```{r, echo=FALSE}
+surv.aeg.larv %>%
+  group_by(Line) %>%
+  dplyr::summarise(N = n(),
+            n = sum(larvae))
+```
+
+Model quality
+
+.
+```{r}
+check_model(mod.tot.sl.aeg)
+```
+
+#### Plot 
+
+```{r}
+larval.surv.plot.aeg = ggplot(data = NULL,
+                              aes()) +
+  geom_point(data = surv.aeg.larv, 
+             aes(x = jitter(as.numeric(factor(Line))), 
+                 y = survie, color = Line), 
+             size = 2, alpha = 0.6) + 
+  geom_point(data = df.larv.aeg,
+             aes(x = Line, y = m), 
+             col = 'black') + 
+  geom_errorbar(data = df.larv.aeg, aes(x = Line, ymin = conf.inf, 
+                                        ymax = conf.sup), 
+                width = 0.05, col = 'black') +
+  annotate(geom = 'text', x = 1:4, y = 20,
+           label = c("N = 4", "N = 8", "N = 4", "N = 4"),
+           size = 4) +
+  annotate(geom = 'text', x = 1:4, y = 5,
+           label = c("n = 800", "n = 400", "n = 400", "n = 400"),
+           size = 4) +
+  annotate(geom = 'line', x = 1:4, y = 152) +
+  annotate(geom = 'text', x = 2.5, y = 162,
+           label = 'n.s.',
+           size = 4) +
+  annotate(geom = 'line', x = 1:3, y = 132) +
+  annotate(geom = 'text', x = 2, y = 142,
+           label = 'n.s.',
+           size = 4) +
+  annotate(geom = 'line', x = 1:2, y = 112) +
+  annotate(geom = 'text', x = 1.5, y = 122,
+           label = 'n.s.',
+           size = 4) +
+  scale_x_discrete(limits = levels(df.larv.aeg$Line), 
+                   labels = c("Bra (WT)", 
+                              "Aaeg-M", 
+                              "Aaeg-m",
+                              "Aaeg-CS"
+                   ),
+  guide = guide_axis(angle = 30)) +
+  scale_y_continuous(breaks = c(0, 25, 50, 75, 100), 
+                     labels = c(0, 25, 50, 75, 100)) +
+  scale_color_manual(labels = names(line.color.aeg),
+                     values = line.color.aeg) +
+  coord_cartesian(clip = 'off', ylim = c(0,100)) + 
+  labs(x = 'Line', 
+       y = 'Larva to adult survival (%)', 
+       color = 'Line') + 
+  theme_classic() +
+  theme(legend.position = 'none',
+        axis.title.y = element_text(color = 'black', 
+                                          size = 12),
+        axis.text.y = element_text(size = 10,
+                                         hjust = 0, vjust = 0),
+        axis.title.x = element_text(color = 'black', 
+                                          size = 12),
+        axis.text.x = element_text(size = 10), 
+        plot.margin = unit(c(2,0,0,0), 'cm'))
+        
+
+larval.surv.plot.aeg
+```
+
+```{r, include=F}
+ggsave(larval.surv.plot.aeg, filename = 'plot/Survival-larvae-aeg.png', 
+       height = 7, width = 9, units = 'cm')
+```
+
+\newpage
+
+### Ae. albopictus
+
+#### Data 
+
+.
+```{r}
+surv.alb.larv = read.table("data/Survival-larvae_albo.csv", 
+                           sep = ";", header = T) 
+surv.alb.larv = surv.alb.larv %>%  
+  dplyr::select( Replicate, Line, larvae, adults)
+
+surv.alb.larv$Species = "Ae. albopictus"
+
+surv.alb.larv$Line = factor(surv.alb.larv$Line, 
+                            levels = c('BiA (WT)', 'Aal-M', 'Aal-m', 'Aal-CS'))
+
+surv.alb.larv$survie = surv.alb.larv$adults/surv.alb.larv$larvae * 100
+
+surv.alb.larv
+```
+
+#### Model 
+
+.
+```{r}
+
+mod.tot.sl.alb = lm(data=surv.alb.larv, formula = survie ~ Line) 
+mod.tot.sl.alb %>% summary()
+mod.tot.sl.alb %>% aov %>% TukeyHSD()
+
+df.larv.alb = ggpredict(mod.tot.sl.alb) %>%
+  data.frame %>%
+  dplyr::select(
+    Line = Line.x, 
+    m = Line.predicted,
+    sd = Line.std.error,
+    conf.inf = Line.conf.low, 
+    conf.sup = Line.conf.high
+  )
+df.larv.alb$Line = factor(df.larv.alb$Line, 
+                          levels = c('BiA (WT)', 'Aal-M', 'Aal-m', 'Aal-CS'))
+df.larv.alb
+```
+
+Replication
+
+```{r, echo=FALSE}
+surv.alb.larv %>%
+  group_by(Line) %>%
+  dplyr::summarise(N = n(),
+            n = sum(larvae))
+```
+
+Model quality
+
+```{r}
+check_model(mod.tot.sl.alb)
+```
+
+#### Plot 
+
+.
+```{r}
+larval.surv.plot.alb = ggplot(data = NULL,
+                              aes()) +
+  geom_point(data = surv.alb.larv, 
+             aes(x = jitter(as.numeric(factor(Line))), 
+                 y = survie, color = Line), 
+             size = 2, alpha = 0.6) + 
+  geom_point(data = df.larv.alb,
+             aes(x = Line, y = m), col = 'black') + 
+  geom_errorbar(data = df.larv.alb, 
+                aes(x = Line, 
+                    ymin = conf.inf, 
+                    ymax = conf.sup), 
+                width = 0.05, col = 'black') +
+  annotate(geom = 'text', x = 1:4, y = 20,
+           label = c("N = 4", "N = 4", "N = 4", "N = 4"),
+           size = 4) +
+  annotate(geom = 'text', x = 1:4, y = 5,
+           label = c("n = 800", "n = 400", "n = 400", "n = 400"),
+           size = 4) +
+  annotate(geom = 'line', x = 1:4, y = 152) +
+  annotate(geom = 'text', x = 2.5, y = 162,
+           label = 'n.s.',
+           size = 4) +
+  annotate(geom = 'line', x = 1:3, y = 132) +
+  annotate(geom = 'text', x = 2, y = 142,
+           label = '**',
+           size = 4) +
+  annotate(geom = 'line', x = 1:2, y = 112) +
+  annotate(geom = 'text', x = 1.5, y = 122,
+           label = '**',
+           size = 4) +
+  scale_x_discrete(limits = levels(df.larv.alb$Line), 
+                   labels = c("BiA (WT)", 
+                              "Aal-M", 
+                              "Aal-m",
+                              "Aal-CS"
+                   ),
+  guide = guide_axis(angle = 30)) +
+  scale_y_continuous(breaks = c(0, 25, 50, 75, 100), 
+                     labels = c(0, 25, 50, 75, 100)) +
+  coord_cartesian(clip = 'off', ylim = c(0,100)) + 
+  scale_color_manual(labels = names(line.color.alb),
+                     values = line.color.alb) +
+  labs(x = 'Line', 
+       y = 'Larva to adult survival (%)', 
+       color = 'Line') + 
+  theme_classic() +
+  theme(legend.position = 'none',
+        panel.background = element_rect(fill = "grey"),
+        axis.title.y = element_text(color = 'black', 
+                                          size = 12),
+        axis.text.y = element_text(size = 10,
+                                         hjust = 0, vjust = 0),
+        axis.title.x = element_text(color = 'black', 
+                                          size = 12),
+        axis.text.x = element_text(size = 10), 
+        plot.margin = unit(c(2,0,0,0), 'cm'))
+larval.surv.plot.alb
+```
+
+```{r, include=F}
+ggsave(larval.surv.plot.alb, filename = 'plot/Survival-larvae-alb.png', 
+       height = 7, width = 9, units = 'cm')
+```
+
+\newpage
+
+# Figure 4
+
+## Competitiveness 
+
+### Ae. aegypti
+
+#### Data 
+
+```{r}
+compet_aeg <- read.table("data/Competitiveness_aeg.csv", 
+                       header = TRUE, sep=",")
+compet_aeg$total = compet_aeg$tsg + compet_aeg$no_tsg
+compet_aeg$comp = compet_aeg$tsg / (compet_aeg$total) * 100
+compet_aeg$line =  factor(x = compet_aeg$line, 
+                             levels = c('Expected','Aaeg-M', 'Aaeg-CS'))
+compet_aeg
+
+compet.aeg = 
+  rbind(
+    data.frame(replicate = compet_aeg[1,2], 
+               line = compet_aeg[1,1], 
+               result = rep(1, compet_aeg[1,3])),
+    data.frame(replicate = compet_aeg[1,2], 
+               line = compet_aeg[1,1], 
+               result = rep(0, compet_aeg[1,4])))
+
+for(i in 2:nrow(compet_aeg)){
+  compet.aeg = 
+    rbind(
+      compet.aeg,
+      data.frame(replicate = compet_aeg[i,2], 
+                 line = compet_aeg[i,1], 
+                 result = rep(1, compet_aeg[i,3])),
+      data.frame(replicate = compet_aeg[i,2], 
+                 line = compet_aeg[i,1], 
+                 result = rep(0, compet_aeg[i,4]))
+    )
+}  
+
+compet.aeg$line = factor(x = compet.aeg$line, 
+                             levels = c('Expected','Aaeg-M', 'Aaeg-CS'))
+compet.aeg$Species = "Ae. aegypti"
+
+sum.compet.aeg = compet.aeg %>%
+  filter(line != 'Expected') %>%
+  group_by(line) %>%
+  dplyr::summarize(value = n(),
+            N = max(replicate)) %>% 
+  data.frame() %>%
+  mutate(pos = c(1,2))
+
+compet.aeg
+
+Expected_Aaeg_M = 0.26
+Expected_Aaeg_CS = 0.26
+```
+
+
+
+#### Model 
+
+.
+```{r}
+# Generalized linear model with Bernoulli distribution 
+cpt.aeg = glm(formula = 'result ~ line', 
+             family = binomial,
+             data = compet.aeg)
+summary(cpt.aeg)
+
+# Pairwise comparison
+cpt.aeg.pred = ggpredict(cpt.aeg) %>% data.frame()
+
+cpt.aeg.pred %>% dplyr::select(Line = line.x, 
+                               Mean = line.predicted, 
+                               SE = line.std.error,
+                               CI.low = line.conf.low, 
+                               CI.high = line.conf.high)
+```
+
+Replication
+
+```{r, echo=FALSE}
+sum.compet.aeg %>% 
+  dplyr::select(Line = line, N, n = value)
+```
+
+Model fit quality 
+
+```{r, message=FALSE, warning=F}
+check_model(cpt.aeg)
+```
+
+#### Plot
+
+.
+```{r}
+comp.aeg.plot = 
+  ggplot(data =  NULL) + 
+  geom_point(data = compet_aeg[compet_aeg$line!='Expected',],
+             aes(x = jitter(as.numeric(factor(line))),
+                 y = comp,
+                 color = line),
+             size = 2, alpha = .6)+
+  geom_point(data = cpt.aeg.pred[-1,], 
+             aes(x = (as.numeric(line.x)-1), 
+                 y = line.predicted * 100), 
+             size = 1.5, color = 'black') + 
+  geom_errorbar(data = cpt.aeg.pred[-1,], 
+                aes(x = (as.numeric(line.x)-1), 
+                    ymin = line.conf.low* 100, 
+                    ymax = line.conf.high* 100), 
+                width = 0.05, color = 'black') + 
+  annotate(geom = 'text', x = sum.compet.aeg$pos, y=85,
+           label = paste0('n = ', sum.compet.aeg$value),
+           size = 4) +
+  annotate(geom = 'text', x= sum.compet.aeg$pos, y=95,
+           label = c('N = 5', 'N = 5'),
+           size = 4) +
+  annotate(geom = 'line', x = c(.75, 1.25),
+           y = rep(Expected_Aaeg_M*100, 2),
+           lty = 2, color = 'grey30')  +
+  annotate(geom = 'line', x = c(1.75, 2.25),
+           y = rep(Expected_Aaeg_CS*100, 2),
+           lty = 2, color = 'grey30') +
+  annotate(geom = 'text', x = 2, y=50,
+           label = 'n.s.',
+           size = 4) +
+  annotate(geom = 'text', x = 1, y=50,
+           label = 'n.s.',
+           size = 4) +
+  scale_x_continuous(breaks = 1:2, 
+                     labels = c("Bra (WT) vs. Aaeg-M", 
+                                "Aaeg-CS vs. Aaeg-M"), 
+                     limits = c(.5,2.5)) +
+  scale_y_continuous(limits = c(0,100), 
+                     breaks = c(0,25,50,75,100)) + 
+  scale_color_manual(values = line.color.aeg, labels = names(line.color.aeg)) +
+  labs(x = 'Line ', 
+       y = 'Transgenic progeny (%)') + 
+  theme_classic() +
+  theme(legend.position = 'none',
+        axis.title.y = element_text(color = 'black', 
+                                          size = 12),
+        axis.text.y = element_text(size = 10,
+                                         hjust = 0, vjust = 0),
+        axis.title.x = element_text(color = 'black', 
+                                          size = 12),
+        axis.text.x = element_text(size = 10))
+        
+
+comp.aeg.plot
+```
+
+```{r, include = F}
+ggsave(comp.aeg.plot, filename = 'plot/Compet-aeg.png', 
+       height = 7, width = 14, units = 'cm')
+```
+
+\newpage
+
+### Ae. albopictus
+
+#### Data 
+
+.
+```{r}
+compet_albo<-read.table("data/Competitiveness_albo.csv", header=TRUE, sep=",")
+compet_albo$total = compet_albo$tsg + compet_albo$no_tsg
+compet_albo$comp = compet_albo$tsg / (compet_albo$total) * 100
+compet_albo$line =  factor(x = compet_albo$line, 
+                             levels = c('Expected','Aal-M', 'Aal-CS'))
+compet_albo
+
+compet.albo = 
+  rbind(
+    data.frame(replicate = compet_albo[1,2], 
+               line = compet_albo[1,1], 
+               result = rep(1, compet_albo[1,3])),
+    data.frame(replicate = compet_albo[1,2], 
+               line = compet_albo[1,1], 
+               result = rep(0, compet_albo[1,4])))
+
+for(i in 2:nrow(compet_albo)){
+  compet.albo = 
+    rbind(
+      compet.albo,
+      data.frame(replicate = compet_albo[i,2], 
+                 line = compet_albo[i,1], 
+                 result = rep(1, compet_albo[i,3])),
+      data.frame(replicate = compet_albo[i,2], 
+                 line = compet_albo[i,1], 
+                 result = rep(0, compet_albo[i,4]))
+    )
+}  
+
+compet.albo$line = factor(x = compet.albo$line, 
+                             levels = c('Expected','Aal-M', 'Aal-CS'))
+compet.albo$Species = "Ae. albopictus"
+
+sum.compet.albo = compet.albo %>% 
+  filter(line != "Expected") %>%
+  group_by(line) %>%
+  dplyr::summarize(value = n(),
+            N = max(replicate)) %>% 
+  data.frame() %>%
+  mutate(pos = c(1,2))
+
+compet.albo
+
+Expected_Aal_M = 0.255
+Expected_Aal_CS = 0.255
+```
+
+#### Model 
+
+.
+```{r}
+# Generalized linear model with Bernoulli distribution 
+cpt.albo = glm(formula = 'result ~ line', 
+             family = binomial,
+             data = compet.albo)
+summary(cpt.albo)
+
+# Pairwise comparison
+cpt.albo.pred = ggpredict(cpt.albo) %>% data.frame()
+
+cpt.albo.pred %>% dplyr::select(Line = line.x, 
+                                Mean = line.predicted, 
+                                SE = line.std.error,
+                                CI.low = line.conf.low, 
+                                CI.high = line.conf.high)
+```
+
+Replication
+
+```{r, echo=FALSE}
+sum.compet.albo %>% 
+  dplyr::select(Line = line, N, n = value)
+```
+
+Model fit quality 
+
+```{r, message=FALSE, warning=F}
+plot(cpt.albo)
+```
+
+#### Plot
+
+.
+```{r}
+comp.albo.plot = 
+  ggplot(data =  NULL) + 
+  geom_point(data = compet_albo[compet_albo$line!='Expected',],
+             aes(x = jitter(as.numeric(factor(line))),
+                 y = comp,
+                 color = line),
+             size = 2, alpha = .6)+
+  geom_point(data = cpt.albo.pred[-1,], 
+             aes(x = (as.numeric(line.x)-1), 
+                 y = line.predicted * 100), 
+             size = 1.5, 
+             color = 'black') + 
+  geom_errorbar(data = cpt.albo.pred[-1,], 
+                aes(x = (as.numeric(line.x)-1), 
+                    ymin = line.conf.low* 100, 
+                    ymax = line.conf.high* 100), 
+                width = 0.05, color = 'black') + 
+  annotate(geom = 'text', 
+           x = sum.compet.albo$pos, y = 85,
+           label = paste0('n = ', sum.compet.albo$value),
+           size = 4) +
+  annotate(geom = 'text',
+           x = sum.compet.albo$pos, y = 95,
+           label = c('N = 5', 'N = 5'),
+           size = 4) +
+  annotate(geom = 'line', x = c(.75, 1.25),
+           y=rep(Expected_Aal_M*100, 2),
+           lty = 2, color = 'grey30')  +
+  annotate(geom = 'line', x = c(1.75, 2.25),
+           y=rep(Expected_Aal_CS*100, 2),
+           lty = 2, color = 'grey30') +
+  annotate(geom = 'text', x = 2, y = 50,
+           label = 'n.s.',
+           size = 4) +
+  annotate(geom = 'text', x = 1, y = 50,
+           label = '***',
+           size = 4) +
+  scale_x_continuous(breaks = 1:2, 
+                     labels = c("BiA (WT) vs. Aal-M", 
+                                "Aal-CS vs. Aal-M"), 
+                     limits = c(.5,2.5)) +
+  scale_y_continuous(limits = c(0,100), 
+                     breaks = c(0,25,50,75,100)) + 
+  scale_color_manual(values = line.color.alb, labels = names(line.color.alb)) +
+  labs(x = 'Line ', 
+       y = 'Transgenic progeny (%)') + 
+  theme_classic() +
+  theme(legend.position = 'none',
+        panel.background = element_rect(fill = 'grey'),
+        axis.title.y = element_text(color = 'black', 
+                                          size = 12),
+        axis.text.y = element_text(size = 10,
+                                         hjust = 0, vjust = 0),
+        axis.title.x = element_text(color = 'black', 
+                                          size = 12),
+        axis.text.x = element_text(size = 10))
+
+comp.albo.plot
+```
+
+```{r, include = F}
+ggsave(comp.albo.plot, filename = 'plot/Compet-albo.png', 
+       height = 7, width = 14, units = 'cm')
+```
+
+\newpage 
+
+## Flight test
+
+### Ae. aegypti 
+
+#### Data 
+
+.
+```{r}
+flight_aegypti<-read.table("data/Flight_aeg.csv", 
+                           header = TRUE, sep = ";")
+
+flight_aegypti$esc = flight_aegypti$out / 
+  (flight_aegypti$out + flight_aegypti$in.) * 100
+
+flight_aegypti$Line = factor(flight_aegypti$Line, 
+                             levels = c("Bra (WT)", "Aaeg-M", "Aaeg-CS"))
+
+flight_aegypti
+
+flight.aeg = 
+  rbind(
+    data.frame(replicate = flight_aegypti[1,1],
+               treatment = flight_aegypti[1,2],
+               result = rep(1, flight_aegypti[1,3])),
+    data.frame(replicate = flight_aegypti[1,1],
+               treatment = flight_aegypti[1,2],
+               result = rep(0, flight_aegypti[1,4])))
+
+for(i in 2:nrow(flight_aegypti)){
+  flight.aeg = 
+    rbind(
+      flight.aeg,
+      data.frame(replicate = flight_aegypti[i,1], 
+                 treatment = flight_aegypti[i,2], 
+                 result = rep(1, flight_aegypti[i,3])),
+      data.frame(replicate = flight_aegypti[i,1], 
+                 treatment = flight_aegypti[i,2], 
+                 result = rep(0, flight_aegypti[i,4]))
+    )
+}  
+
+flight.aeg$Species = 'Ae. aegypti'
+flight.aeg$treatment = factor(flight.aeg$treatment, 
+                              levels = c("Bra (WT)", "Aaeg-M", "Aaeg-CS"))
+
+head(flight.aeg)
+
+flight.aeg.summary = flight.aeg %>% group_by(treatment) %>%
+  dplyr::summarise(value = n()) %>% data.frame() %>%
+  mutate(pos = 1:3)
+
+head(flight.aeg.summary)
+```
+
+#### Model 
+.
+
+```{r}
+flight.aeg.glmer = glmer(formula = 'result ~ treatment + (1|replicate)', 
+                         data = flight.aeg, family = binomial)
+
+summary(flight.aeg.glmer)
+
+pairewise.f.aeg = glht(flight.aeg.glmer, 
+                       mcp(treatment="Tukey"))
+
+summary(pairewise.f.aeg)
+```
+
+Replication
+
+```{r, echo=FALSE}
+flight_aegypti %>%
+  group_by(Line) %>%
+  dplyr::summarise(N = n(),
+            n = sum(out) + sum(in.))
+```
+
+Model fit quality
+
+```{r}
+check_model(flight.aeg.glmer)
+```
+
+#### Plot
+.
+
+```{r}
+ft.aeg = data.frame(ggpredict(model = flight.aeg.glmer, 
+                              terms = c("treatment")))
+ft.aeg$x = factor(ft.aeg$x, 
+                  levels = c("Bra (WT)", "Aaeg-M", "Aaeg-CS"))
+ft.aeg$Species = 'Ae. aegypti'
+
+ft.plot.aeg = 
+  ggplot(data =  NULL) + 
+  geom_point(data = flight_aegypti,
+             aes(x = jitter(as.numeric(factor(Line))),
+                 y = esc,
+                 color = Line),
+             size = 2, alpha = .6)+
+  geom_point(data = ft.aeg, 
+             aes(x = as.numeric(x), 
+                 y = predicted * 100), 
+             size = 1.5, color = 'black') + 
+  geom_errorbar(data = ft.aeg, 
+                aes(x = as.numeric(x), 
+                    ymin = conf.low* 100, 
+                    ymax = conf.high* 100), 
+                width = 0.05, color = 'black') + 
+  annotate(geom = 'text', 
+           x = flight.aeg.summary$pos, y = 5,
+           label = paste0('n = ', flight.aeg.summary$value),
+           size = 4) +
+  annotate(geom = 'text', 
+           x = flight.aeg.summary$pos, y = 15,
+           label = 'N = 3',
+           size = 4) +
+  annotate(geom = 'line', x = 1:3, y = 125) +
+  annotate(geom = 'text', x = 2, y = 132,
+           label = 'n.s.',
+           size = 4) +
+  annotate(geom = 'line', x = 1:2, y = 108) +
+  annotate(geom = 'text', x = 1.5, y = 115,
+           label = 'n.s.',
+           size = 4) +
+  scale_x_continuous(breaks = 1:3, 
+                     labels = c("Bra (WT)", 
+                                "Aaeg-M", 
+                                "Aaeg-CS"), 
+                     limits = c(.5,3.5)) +
+  scale_y_continuous(breaks = c(0,25,50,75,100)) + 
+  scale_color_manual(values = line.color.aeg, labels = names(line.color.aeg)) +
+  coord_cartesian(clip = 'off', ylim = c(0,100))+
+  labs(x = 'Line', 
+       y = 'Escaped males (%)') + 
+  theme_classic() +
+  theme(legend.position = 'none', 
+        plot.margin = unit(c(1.5,0,0,0), 'cm'),
+        axis.title.y = element_text(color = 'black', 
+                                          size = 12),
+        axis.text.y = element_text(size = 11,
+                                         hjust = 0, vjust = 0),
+        axis.title.x = element_text(color = 'black', 
+                                          size = 12),
+        axis.text.x = element_text(size = 11))
+
+ft.plot.aeg
+```
+
+```{r, include=F}
+ggsave(ft.plot.aeg, filename = 'plot/FT-aeg.png', 
+       height = 7, width = 14, units = 'cm')
+```
+
+\newpage
+
+### Ae. albopictus
+
+#### Data 
+
+.
+```{r}
+flight_albo<-read.table("data/Flight_albo.csv", 
+                        header = TRUE, sep = ";")
+
+flight_albo$esc = flight_albo$out / (flight_albo$out + flight_albo$in.) * 100
+
+flight_albo$Line = factor(flight_albo$Line, 
+                          levels = c("BiA (WT)", "Aal-M", "Aal-CS"))
+
+head(flight_albo)
+
+flight.albo = 
+  rbind(
+    data.frame(replicate = flight_albo[1,1],
+               treatment = flight_albo[1,2],
+               result = rep(1, flight_albo[1,3])),
+    data.frame(replicate = flight_albo[1,1],
+               treatment = flight_albo[1,2],
+               result = rep(0, flight_albo[1,4])))
+
+for(i in 2:nrow(flight_albo)){
+  flight.albo = 
+    rbind(
+      flight.albo,
+      data.frame(replicate = flight_albo[i,1], 
+                 treatment = flight_albo[i,2], 
+                 result = rep(1, flight_albo[i,3])),
+      data.frame(replicate = flight_albo[i,1], 
+                 treatment = flight_albo[i,2], 
+                 result = rep(0, flight_albo[i,4]))
+    )
+}  
+
+flight.albo$Species = 'Ae. albopictus'
+flight.albo$treatment = factor(flight.albo$treatment, 
+                               levels = c("BiA (WT)", "Aal-M", "Aal-CS"))
+
+head(flight.albo)
+
+flight.alb.summary = flight.albo %>% group_by(treatment) %>%
+  dplyr::summarise(value = n()) %>% data.frame() %>%
+  mutate(pos = 1:3)
+
+head(flight.alb.summary)
+```
+
+#### Model 
+
+.
+```{r}
+mod.glmer.albo = glmer(formula = 'result ~ treatment + (1|replicate)', 
+                       data = flight.albo, family = binomial)
+
+summary(mod.glmer.albo)
+
+pairewise.f.albo = glht(mod.glmer.albo, 
+                        mcp(treatment="Tukey"))
+
+summary(pairewise.f.albo)
+```
+
+Replication
+
+```{r, echo=FALSE}
+flight_albo %>%
+  group_by(Line) %>%
+  dplyr::summarise(N = n(),
+            n = sum(out) + sum(in.))
+```
+
+Model fit quality
+
+```{r}
+check_model(mod.glmer.albo)
+```
+
+#### Plot
+
+.
+```{r}
+ft.albo = data.frame(ggpredict(model = mod.glmer.albo, terms = c("treatment")))
+ft.albo$Specft.albo$Species = 'Ae. albopictus'
+
+ft.plot.alb = 
+  ggplot(data =  NULL) + 
+  geom_point(data = flight_albo, 
+             aes(x = jitter(as.numeric(factor(Line))), 
+                 y = esc, color = Line), 
+             size = 2, alpha = .6) + 
+  geom_point(data = ft.albo, 
+             aes(x = as.numeric(x), 
+                 y = predicted * 100), 
+             size = 1.5, color = 'black') + 
+  geom_errorbar(data = ft.albo, 
+                aes(x = as.numeric(x), 
+                    ymin = conf.low * 100, 
+                    ymax = conf.high * 100), 
+                width = 0.05, color = 'black') + 
+  annotate(geom = 'text', 
+           x = flight.alb.summary$pos, y = 5,
+           label = paste0('n = ', flight.alb.summary$value),
+           size = 4) +
+  annotate(geom = 'text', 
+           x = flight.alb.summary$pos, y = 15,
+           label = 'N = 3',
+           size = 4) +
+  annotate(geom = 'line', x = 1:3, y = 125) +
+  annotate(geom = 'text', x = 2, y = 132,
+           label = 'n.s.',
+           size = 4) +
+  annotate(geom = 'line', x = 1:2, y = 108) +
+  annotate(geom = 'text', x = 1.5, y = 115,
+           label = 'n.s.',
+           size = 4) +
+  scale_x_continuous(breaks = 1:3, 
+                     labels = c("BiA (WT)", 
+                                "Aal-M", 
+                                "Aal-CS"), 
+                     limits = c(.5,3.5)) +
+  scale_y_continuous(breaks = c(0,25,50,75,100)) + 
+  coord_cartesian(clip = 'off', ylim = c(0,100)) +
+  scale_color_manual(values = line.color.alb, 
+                     labels = names(line.color.alb)) +
+  labs(x = 'Line', 
+       y = 'Escaped males (%)') + 
+  theme_classic() +
+   theme(legend.position = 'none', 
+        plot.margin = unit(c(1.5,0,0,0), 'cm'),
+        axis.title.y = element_text(color = 'black', 
+                                          size = 12),
+        axis.text.y = element_text(size = 11,
+                                         hjust = 0, vjust = 0),
+        axis.title.x = element_text(color = 'black', 
+                                          size = 12),
+        axis.text.x = element_text(size = 11),
+        panel.background = element_rect(fill = 'grey'))
+
+ft.plot.alb
+```
+
+```{r, include=F}
+ggsave(ft.plot.alb, filename = 'plot/FT-alb.png', 
+       height = 7, width = 14, units = 'cm')
+```
+
+\newpage
+
+## Adult survival
+
+### Ae. aegypti
+
+#### Data
+
+.
+```{r}
+data_aeg <- read.table("data/Survival_aeg.txt", h = T)
+data_aeg$Line[data_aeg$Line=='Bra-(WT)'] = 'Bra (WT)'
+data_aeg$Line = factor(data_aeg$Line,
+                       levels = c('Bra (WT)', 'Aaeg-M','Aaeg-CS'))
+
+data_aeg |> dplyr::select(-(3:5))
+
+# First, melt the data.frame
+data1 <- melt(data_aeg , 
+              .(Replicate,Line, larvae, adults, larval_deaths, male_adults))
+
+# Transform days in numbers
+data1$variable <- as.numeric(str_replace(data1$variable, "D",""))
+
+#Sort by Line, Replicate and variable.
+data2 <- arrange(data1, Line, Replicate, variable )
+event <- subset(data2, value>0)
+
+dat <- NULL
+temporary_event <- NULL
+for (i in 1:nrow(event)) {
+  N <- event[i, "value"]
+  dat <- data.frame(Replicate=rep(event[i,"Replicate"],N) ,Line=rep(event[i,"Line"],N) ,larvae=rep(event[i,"larvae"],N) ,adults=rep(event[i,"adults"],N) ,larval_deaths=rep(event[i,"larval_deaths"],N) ,male_adults=rep(event[i,"male_adults"],N),Day=rep(event[i,"variable"],N), Event=rep(1,N))
+  
+  temporary_event  <- rbind(temporary_event ,dat) 
+}
+
+dat <- data.frame(Replicate = 1, Line = "Aaeg-M", larvae = 100,  
+                  adults = 87, larval_deaths = 13, 
+                  male_adults = 87, Day = 14, Event = 0)
+dat1 <- data.frame(Replicate = 2, Line = "Aaeg-M", larvae = 100,  
+                   adults = 82, larval_deaths = 18, 
+                   male_adults = 82, Day = 14, Event = 0)
+
+temporary_event <- rbind(temporary_event, dat, dat1)
+
+# Add the censored values.
+censored <- unique(ddply(temporary_event,
+                         .(Replicate,Line,larvae,adults,
+                           larval_deaths,male_adults),
+                         summarise,
+                         variable = Day,
+                         Event = sum(Event),
+                         Censored = (male_adults-Event))[,-7])
+censored$variable <- max(data2$variable)
+
+dat <- NULL
+temporary <- NULL
+for (i in 1:nrow(censored)) {
+  N <- censored[i, "Censored"]
+  dat <- data.frame(Replicate = rep(censored[i,"Replicate"],N),
+                    Line = rep(censored[i,"Line"],N), 
+                    larvae = rep(censored[i,"larvae"],N), 
+                    adults = rep(censored[i,"adults"],N),
+                    larval_deaths = rep(censored[i,"larval_deaths"],N),
+                    male_adults = rep(censored[i,"male_adults"],N),
+                    Day = rep(censored[i,"variable"],N), 
+                    Event = rep(0,N) )
+  
+  temporary <- rbind(temporary,dat )
+}
+
+data_surv <- rbind(temporary_event, temporary)
+data_surv <- arrange(data_surv, Line,Replicate,desc(Event),Day)
+
+SurvObj <- with(data_surv, Surv(Day, Event))
+```
+
+#### Model 
+
+.
+```{r}
+my.KMest <- survfit(SurvObj ~ Line , conf.int = 0.95, data = data_surv)
+summary(my.KMest)
+df = data.frame(t = my.KMest$time, 
+                nb.rk = my.KMest$n.risk, 
+                line = c(rep(names(my.KMest$strata[1]), 
+                             my.KMest$strata[1]), 
+                         rep(names(my.KMest$strata[2]), 
+                             my.KMest$strata[2]), 
+                         rep(names(my.KMest$strata[3]), 
+                             my.KMest$strata[3]))
+) 
+
+# df$t[df$line == 'Line=MyriaF' & df$t==4] = 7
+df$t[df$line == 'Line=Aaeg-CS' & df$t==5] = 7
+# df$t[df$line == 'Line=MyriaF' & df$t==3] = 1
+df$t[df$line == 'Line=Aaeg-CS' & df$t==2] = 1
+
+# Test differences of survival at 7 and 14 days
+data_aeg.sum = 
+  data_aeg %>% 
+  group_by(Line, Replicate) %>%
+  dplyr::summarise(sur.7 = (male_adults - 
+                              (D1 + D2 + D3 + D4 + D5 + D6 + D7))/ 
+                     male_adults,
+            sur.14 = (male_adults - (D1 + D2 + D3 + D4 + D5 + 
+                                       D6 + D7 + D8 + D9 + D10 + 
+                                       D11 + D14 + D13 + D14))/ 
+              male_adults)
+
+mod.surv.7 = lm(data = data_aeg.sum,
+   formula = sur.7 ~ Line)
+
+summary(mod.surv.7)
+
+TukeyHSD(aov(mod.surv.7))
+
+mod.surv.14 = lm(data = data_aeg.sum,
+   formula = sur.14 ~ Line)
+
+summary(mod.surv.14)
+
+TukeyHSD(aov(mod.surv.14))
+```
+
+Replication
+
+```{r, echo=FALSE}
+data_aeg %>%
+  group_by(Line) %>%
+  dplyr::summarise(N = n(), 
+            n = sum(male_adults))
+
+```
+
+Model quality
+
+```{r}
+check_model(mod.surv.7)
+check_model(mod.surv.14)
+```
+
+#### Plot
+
+.
+```{r, warning=F, message=F}
+ggsurv <- 
+  ggsurvplot(my.KMest, 
+             data = data_surv, 
+             conf.int = T, 
+             risk.table = T,
+             pval = T, 
+             risk.table.height = 0.25, 
+             xlim = c(-0.5, 16.5))
+
+line.color.aeg = c("#24ff24","#004949", "#006ddb")
+names(line.color.aeg) = c('Line=Bra (WT)', 'Line=Aaeg-M', 'Line=Aaeg-CS')
+
+p.aeg = 
+  ggsurv$plot +
+  labs(x = 'Time (days)') + 
+  scale_y_continuous(limits =  c(.835, 1), 
+                     breaks = c(.84, .90, .95, 1), 
+                     labels = c(0, .90, .95,1)) +
+  scale_x_continuous(breaks = c(0,7,14), limits = c(-1, 21)) +
+  scale_color_manual(breaks = names(line.color.aeg),
+                     values = line.color.aeg, 
+                     guide = 'none') +
+  scale_fill_manual(breaks = names(line.color.aeg),
+                    values = line.color.aeg, 
+                    labels = c("Bra (WT)", "Aaeg-M", "Aaeg-CS"),
+                    name = "Line") +
+  theme(axis.line.y = element_blank(),
+        legend.position = 'right',
+        panel.background = element_rect(fill = 'white')) + 
+  annotate(geom = 'segment', x = -Inf, xend = -Inf, 
+           y = -Inf, yend = Inf) +
+  annotate(geom = 'segment', x = -Inf, xend = -Inf, 
+           y = .85, yend = .89, linetype = 'dashed', color = 'white') + 
+  annotate(geom = 'text', 
+           x = -.5, y = .91, 
+           label = "Number at risk",
+           hjust = 0, size = 4) +
+  annotate(geom = 'text', 
+           x = rep(0, 3), y =  seq(.841, .881, .02), 
+           label = rev(df$nb.rk[df$t == 1]),
+           color = rev(c("#24ff24","#004949", "#006ddb")),
+           size = 4) +
+  annotate(geom = 'text', 
+           x = rep(7, 3), y =  seq(.841, .881, .02), 
+           label = rev(df$nb.rk[df$t == 7]),
+           color = rev(c("#24ff24","#004949", "#006ddb")),
+           size = 4) +
+  annotate(geom = 'text', 
+           x = rep(14, 3), y =  seq(.841, .881, .02), 
+           label = rev(df$nb.rk[df$t == 14]),
+           color = rev(c("#24ff24","#004949", "#006ddb")),
+           size = 4) + 
+  annotate(geom = 'text', x = 15.5, y = .87, label = 'n.s', size = 4) +
+  annotate(geom = "line", x = rep(14.85,2), y = c(.86,.88)) + 
+  annotate(geom = 'text', x = 16.7, y = .86, label = 'n.s', size = 4) +
+  annotate(geom = "line", x = rep(16.1,2), y = c(.84,.88)) 
+
+p.aeg
+```
+
+```{r, include=F}
+ggsave(p.aeg, filename = 'plot/Survival-aeg.png', 
+       height = 8, width = 16, units = 'cm')
+```
+
+\newpage
+
+### Ae. albopictus
+
+#### Data
+
+.
+```{r}
+data_albo <- read.table("data/Survival_albo.txt", h = T)
+data_albo$Line[data_albo$Line=='BiA-(WT)'] = 'BiA (WT)'
+
+data_albo |> dplyr::select(-(3:5))
+
+data1 <- melt(data_albo, 
+              .(Replicate,Line, larvae, adults, larval_deaths, male_adults))
+#Then transform days in numbers
+data1$variable <- as.numeric(str_replace(data1$variable, "D",""))
+#Sort by Line, Replicate and variable.
+data2 <- arrange(data1, Line, Replicate, variable )
+#We now separate the data set in two parts: individuals that has experienced an event(death) and censored individuals.
+
+event <- subset(data2, value>0)
+
+#We will now work of the dataset with individuals experiencing an event. 
+
+dat <- NULL
+temporary_event <- NULL
+for (i in 1:nrow(event)) {
+  N <- event[i, "value"]
+  dat <- data.frame(Replicate=rep(event[i,"Replicate"],N),
+                    Line=rep(event[i,"Line"],N),
+                    larvae=rep(event[i,"larvae"],N),
+                    adults=rep(event[i,"adults"],N),
+                    larval_deaths=rep(event[i,"larval_deaths"],N),
+                    male_adults=rep(event[i,"male_adults"],N),
+                    Day=rep(event[i,"variable"],N), 
+                    Event=rep(1,N))
+  
+  temporary_event  <- rbind(temporary_event ,dat ) 
+}
+
+temporary_event  
+# here is or transformed dataset with one 
+# row for each time we have an event.
+
+# BIA rep3 has no event over the course of 
+# the study, we add it manually so that it would appear.
+dat <- data.frame(Replicate=3, Line="BiA (WT)", 
+                  larvae=200,  adults=129, larval_deaths=71, 
+                  male_adults=91, Day=14, Event=0)
+
+temporary_event <- rbind(temporary_event, dat)
+
+#We now add the censored values.
+
+censored <- unique(ddply(temporary_event,
+                         .(Replicate,Line,larvae,adults,larval_deaths,male_adults),
+                         summarise,
+                         variable=Day, 
+                         Event=sum(Event), 
+                         Censored=(male_adults-Event))[,-7])
+censored$variable <- max(data2$variable)
+
+dat <- NULL
+temporary <- NULL
+for (i in 1:nrow(censored)) {
+  N <- censored[i, "Censored"]
+  dat <- data.frame(Replicate=rep(censored[i,"Replicate"],N) ,
+                    Line=rep(censored[i,"Line"],N) ,
+                    larvae=rep(censored[i,"larvae"],N) ,
+                    adults=rep(censored[i,"adults"],N) ,
+                    larval_deaths=rep(censored[i,"larval_deaths"],N) ,
+                    male_adults=rep(censored[i,"male_adults"],N),
+                    Day=rep(censored[i,"variable"],N), 
+                    Event=rep(0,N) )
+  
+  temporary <- rbind(temporary,dat ) 
+}
+
+#Bind the final dataset
+data_surv <- rbind(temporary_event, temporary)
+data_surv <- arrange(data_surv, Line,Replicate,desc(Event),Day)
+
+SurvObj <- with(data_surv, Surv(Day, Event))
+```
+
+#### Model 
+
+.
+```{r}
+my.KMest <- survfit(SurvObj ~ Line , conf.int = 0.95, data = data_surv)
+summary(my.KMest)
+
+df = data.frame(t = my.KMest$time, 
+                nb.rk = my.KMest$n.risk, 
+                line = c(rep(names(my.KMest$strata[1]), 
+                             my.KMest$strata[1]), 
+                         rep(names(my.KMest$strata[2]), 
+                             my.KMest$strata[2]), 
+                         rep(names(my.KMest$strata[3]), 
+                             my.KMest$strata[3]))
+) 
+
+df$t[df$line == 'Line=Aal-M' & df$t==6] = 7
+df$t[df$line == 'Line=BiA (WT)' & df$t==4] = 7
+df$t[df$line == 'Line=Aal-CS' & df$t==4] = 1
+
+df$line = factor(df$line, levels = c('Line=BiA (WT)','Line=Aal-M','Line=Aal-CS'))
+df = df[order(df$line),]
+
+data_albo.sum = 
+  data_albo %>% 
+  group_by(Line, Replicate) %>%
+  dplyr::summarise(sur.7 = (male_adults - 
+                              (D1 + D2 + D3 + D4 + D5 + D6 + D7))/ 
+                     male_adults,
+            sur.14 = (male_adults - (D1 + D2 + D3 + D4 + D5 + 
+                                       D6 + D7 + D8 + D9 + D10 + 
+                                       D11 + D14 + D13 + D14))/ 
+              male_adults)
+
+data_albo.sum$Line = data_albo.sum$Line %>%
+  factor(., levels = c('BiA (WT)','Aal-M', 'Aal-CS'))
+
+mod.surv.7 = lm(data = data_albo.sum,
+   formula = sur.7 ~ Line)
+
+summary(mod.surv.7)
+
+TukeyHSD(aov(mod.surv.7))
+
+mod.surv.14 = lm(data = data_albo.sum,
+   formula = sur.14 ~ Line)
+
+summary(mod.surv.14)
+
+TukeyHSD(aov(mod.surv.14))
+```
+
+Replication
+
+```{r, echo=FALSE}
+data_albo %>%
+  group_by(Line) %>%
+  dplyr::summarise(N = n(), 
+            n = sum(male_adults))
+```
+
+Model quality
+
+```{r}
+check_model(mod.surv.7)
+check_model(mod.surv.14)
+```
+
+#### Plot
+
+.
+```{r, warning=F, message=F}
+ggsurv <- 
+  ggsurvplot(my.KMest, 
+             data = data_surv, 
+             conf.int = T, 
+             risk.table = T,
+             pval = T, 
+             risk.table.height = 0.25,
+              xlim = c(-0.5, 16.5))
+
+line.color.alb = c("#24ff24","#004949", "#006ddb")
+names(line.color.alb) = c('Line=BiA (WT)', 'Line=Aal-M', 'Line=Aal-CS')
+
+p.albo =
+  ggsurv$plot +
+  labs(x = 'Time (days)') + 
+  scale_y_continuous(limits =  c(.835, 1), 
+                     breaks = c(.84, .90, .95, 1), 
+                     labels = c(0, .90, .95,1)) +
+  scale_x_continuous(breaks = c(0,7,14)) +
+  scale_color_manual(breaks = names(line.color.alb),
+                     values = line.color.alb, 
+                     guide = 'none') +
+  scale_fill_manual(breaks = names(line.color.alb),
+                    values = line.color.alb, 
+                    labels = c("BiA (WT)", "Aal-M", "Aal-CS"),
+                    name = "Line: ") +
+  theme(axis.line.y = element_blank(), 
+        legend.position = 'right',
+        panel.background = element_rect(fill = 'grey')) + 
+  annotate(geom = 'segment', x = -Inf, xend = -Inf, 
+           y = -Inf, yend = Inf) +
+  annotate(geom = 'segment', x = -Inf, xend = -Inf, 
+           y = .85, yend = .89, linetype = 'dashed', color = 'white') + 
+  annotate(geom = 'text', 
+           x = -.5, y = .895, 
+           label = "Number at risk",
+           hjust = 0, size = 4) +
+  annotate(geom = 'text', 
+           x = rep(0, 3), y =  seq(.841, .881, .02), 
+           label = rev(df$nb.rk[df$t == 1]),
+           color = rev(c("#24ff24","#004949", "#006ddb")),
+           size = 4) +
+  annotate(geom = 'text', 
+           x = rep(7, 3), y =  seq(.841, .881, .02), 
+           label = rev(df$nb.rk[df$t == 7]),
+           color = rev(c("#24ff24","#004949", "#006ddb")),
+           size = 4) +
+  annotate(geom = 'text', 
+           x = rep(14, 3), y =  seq(.841, .881, .02), 
+           label = rev(df$nb.rk[df$t == 14]),
+           color = rev(c("#24ff24","#004949", "#006ddb")),
+           size = 4) + 
+  annotate(geom = 'text', x = 15.5, y = .87, label = 'n.s', size = 4) +
+  annotate(geom = "line", x = rep(14.85,2), y = c(.86,.88)) + 
+  annotate(geom = 'text', x = 16.7, y = .86, label = 'n.s', size = 4) +
+  annotate(geom = "line", x = rep(16.1,2), y = c(.84,.88)) 
+
+p.albo
+```
+
+```{r, include=F}
+ggsave(p.albo, filename = 'plot/Survival-albo.png', 
+       height = 8, width = 16, units = 'cm')
+```
+
+
+\newpage
+
+# Figure 5
+
+## Data
+
+```{r}
+speed.aeg = read.csv('data/Speed-test_aeg.csv', sep = ';') %>%
+  mutate(recovery = 100*recovered_males/total_males) %>%
+  mutate(contamination = 100*contamination/total_males)
+
+speed.albo = read.csv('data/Speed-test_albo.csv', sep = ';') %>%
+  mutate(recovery = 100*recovered_males/total_males) %>%
+  mutate(contamination = 100*contamination/total_males)
+
+head(speed.aeg)
+```
+
+## Model
+
+### Recovery
+
+.
+```{r}
+speed.lm = lm(formula = recovery~Mean_speed, 
+              data = speed.aeg)
+
+speed.poly2 = lm(formula = recovery~poly(Mean_speed, degree = 2), 
+              data = speed.aeg)
+
+speed.poly3 = lm(formula = recovery~poly(Mean_speed, degree = 3), 
+              data = speed.aeg)
+
+speed.poly4 = lm(formula = recovery~poly(Mean_speed, degree = 4), 
+              data = speed.aeg)
+
+speed.log = lm(formula = recovery~log(Mean_speed), 
+              data = speed.aeg)
+
+compare_performance(speed.lm, speed.log, 
+                    speed.poly2, speed.poly3, 
+                    speed.poly4)
+```
+
+Best model: 
+
+```{r}
+summary(speed.poly2)
+```
+
+### Contamination
+
+.
+```{r}
+conta.lm = lm(formula = contamination~Mean_speed, 
+              data = speed.aeg)
+
+conta.poly2 = lm(formula = contamination~poly(Mean_speed, degree = 2), 
+              data = speed.aeg)
+
+conta.poly3 = lm(formula = contamination~poly(Mean_speed, degree = 3), 
+              data = speed.aeg)
+
+conta.poly4 = lm(formula = contamination~poly(Mean_speed, degree = 4), 
+              data = speed.aeg)
+
+conta.log = lm(formula = contamination~log(Mean_speed), 
+              data = speed.aeg)
+
+compare_performance(conta.lm, 
+                    conta.log, 
+                    conta.poly2, 
+                    conta.poly3, 
+                    conta.poly4)
+```
+
+Best model 
+
+```{r}
+summary(conta.lm)
+```
+
+### Plot 
+
+.
+```{r}
+pred.speed = ggpredict(speed.poly2) %>% 
+  data.frame()
+pred.conta = ggpredict(conta.lm) %>% 
+  data.frame()
+
+reco.plot = 
+  ggplot(data = NULL) +
+  annotate(geom = 'line', x = c(60, 60), y = c(-Inf,70),
+           lty =2, color = 'gray', size = 1 ) +
+  annotate(geom = 'line', x = c(-Inf, 60), y = c(70,70),
+           lty =2, color = 'gray', size = 1 ) +
+  geom_ribbon(data = pred.speed, 
+              aes(x = Mean_speed.x,
+                  ymin = Mean_speed.conf.low, 
+                  ymax = Mean_speed.conf.high), 
+              fill = "grey", alpha=.3) +
+  geom_line(data= pred.speed, 
+            aes(Mean_speed.x, 
+                Mean_speed.predicted), 
+            col = "black") +
+  geom_ribbon(data = pred.conta, 
+              aes(x = Mean_speed.x, 
+                  ymin = Mean_speed.conf.low,
+                  ymax = Mean_speed.conf.high), 
+              fill = "red", alpha=.3) +
+  geom_line(data= pred.conta, 
+            aes(x = Mean_speed.x, 
+                y = Mean_speed.predicted), 
+            col="red") +
+  geom_point(data = speed.aeg, 
+             aes(x = Mean_speed, 
+                 y = recovery,
+                 col = 'Recovery', pch = "Ae. Aegypti")) + 
+  geom_point(data = speed.aeg, 
+             aes(x = Mean_speed, 
+                 y = contamination, 
+                 col = 'Contamination', pch = "Ae. Aegypti")) +
+  geom_point(data = speed.albo, 
+             aes(x = Mean_speed, 
+                 y = recovery,
+                 col = 'Recovery', pch = "Ae. Albopictus")) + 
+  geom_point(data = speed.albo, 
+             aes(x = Mean_speed, 
+                 y = contamination, 
+                 col = 'Contamination', pch = "Ae. Albopictus")) +
+  annotate(geom='text', x = -27, y =70, label = bquote(italic('70')), color = 'gray') +
+  annotate(geom='text', x = 275, y =50, label = bquote(R^2 ~ '= 98.3%'), color = 'black') +
+  annotate(geom='text', x = 275, y =10, label = bquote(R^2 ~ '= 55.6%'), color = 'red') +
+  labs(x = 'Sorting speed (larvae/sec) \n [larval concentration (larvae/mL)]', 
+       y = 'Percentage of recovery\n and contamination (%)',
+       color = "Measurement" , 
+       pch = "Species") +
+  scale_y_continuous(breaks = seq(0,100,25)) +
+  scale_x_continuous(breaks = seq(0, 300, 60), 
+                     labels = c("0 [0]", '60 [200]', '120 [400]', 
+                                '180 [600]', '240 [800]', '300 [1000]')) +
+  scale_shape_manual(labels = c(bquote(italic("Ae. aegypti")), 
+                                bquote(italic("Ae. albopictus"))), 
+                     values = c(16, 17)) +
+  scale_color_manual(labels = c("Recovery", 
+                                "Contamination"), 
+                     values = c(Recovery = "black", Contamination = "red")) +
+  coord_cartesian(xlim = c(0,300), ylim = c(-5,100), clip = 'off') +
+  theme_classic() +
+  theme(text = element_text(size = 15),
+        legend.position = 'right')
+
+reco.plot
+```
+
+```{r, include=F}
+ggsave(reco.plot, 
+       filename = "plot/speed_plot.png", 
+       height=13, width = 18, unit="cm")
+```

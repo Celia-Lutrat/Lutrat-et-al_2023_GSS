@@ -1,0 +1,1691 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="327.85574mm"
+   height="440.5267mm"
+   viewBox="0 0 327.85574 440.5267"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.1.2 (b8e25be8, 2022-02-05)"
+   sodipodi:docname="GSS-CS-sorting.svg"
+   inkscape:export-filename="/Users/rb44vuni/OneDrive/Stats/simulation-cost/schema-GSS-CS.png"
+   inkscape:export-xdpi="300"
+   inkscape:export-ydpi="300"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="0.33184273"
+     inkscape:cx="388.73836"
+     inkscape:cy="898.01575"
+     inkscape:window-width="1920"
+     inkscape:window-height="1080"
+     inkscape:window-x="1728"
+     inkscape:window-y="37"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer2"
+     inkscape:snap-global="false"
+     showguides="false">
+    <inkscape:grid
+       type="xygrid"
+       id="grid59470"
+       originx="-0.6505482"
+       originy="143.74652" />
+  </sodipodi:namedview>
+  <defs
+     id="defs2">
+    <marker
+       style="overflow:visible"
+       id="Arrow1Send"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow1Send"
+       inkscape:isstock="true">
+      <path
+         transform="matrix(-0.2,0,0,-0.2,-1.2,0)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         id="path63143" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="Arrow1Send-0"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow1Send"
+       inkscape:isstock="true">
+      <path
+         transform="matrix(-0.2,0,0,-0.2,-1.2,0)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         id="path63143-2" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="marker91690"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow1Send"
+       inkscape:isstock="true">
+      <path
+         transform="matrix(-0.2,0,0,-0.2,-1.2,0)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         id="path91688" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="marker91694"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow1Send"
+       inkscape:isstock="true">
+      <path
+         transform="matrix(-0.2,0,0,-0.2,-1.2,0)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         id="path91692" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="marker91698"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow1Send"
+       inkscape:isstock="true">
+      <path
+         transform="matrix(-0.2,0,0,-0.2,-1.2,0)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         id="path91696" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="marker91702"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow1Send"
+       inkscape:isstock="true">
+      <path
+         transform="matrix(-0.2,0,0,-0.2,-1.2,0)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         id="path91700" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="marker91706"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow1Send"
+       inkscape:isstock="true">
+      <path
+         transform="matrix(-0.2,0,0,-0.2,-1.2,0)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         id="path91704" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="marker91710"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow1Send"
+       inkscape:isstock="true">
+      <path
+         transform="matrix(-0.2,0,0,-0.2,-1.2,0)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         id="path91708" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="marker91714"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow1Send"
+       inkscape:isstock="true">
+      <path
+         transform="matrix(-0.2,0,0,-0.2,-1.2,0)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         id="path91712" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="marker91718"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow1Send"
+       inkscape:isstock="true">
+      <path
+         transform="matrix(-0.2,0,0,-0.2,-1.2,0)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         id="path91716" />
+    </marker>
+  </defs>
+  <g
+     inkscape:groupmode="layer"
+     id="layer3"
+     inkscape:label="BG"
+     transform="translate(-0.65054816,143.74652)"
+     sodipodi:insensitive="true"
+     style="display:none">
+    <rect
+       style="fill:#ffffff;fill-opacity:1;stroke-width:0.758243;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0"
+       id="rect164252"
+       width="327.85574"
+       height="440.5267"
+       x="0.65054816"
+       y="-143.74652" />
+  </g>
+  <g
+     inkscape:label="Shapes"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-0.65054816,143.74652)" />
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="Box"
+     transform="translate(-0.65054816,143.74652)">
+    <g
+       id="g59468-1"
+       transform="translate(194.98207,70.605933)">
+      <rect
+         style="fill:#b1f4ae;fill-opacity:0.967655;stroke-width:1.16895;stroke-linejoin:round;stroke-opacity:0"
+         id="rect25788-5"
+         width="33.212421"
+         height="7.8784971"
+         x="67.988586"
+         y="216.36604" />
+      <text
+         xml:space="preserve"
+         style="font-size:4.23333px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+         x="69.387466"
+         y="221.65369"
+         id="text25792-1"><tspan
+           sodipodi:role="line"
+           id="tspan25790-1"
+           style="font-weight:bold;font-size:4.23333px;stroke-width:0.264583"
+           x="69.387466"
+           y="221.65369">Field release</tspan></text>
+    </g>
+    <g
+       id="g164048"
+       transform="translate(67.319226,13.824064)">
+      <g
+         id="g288195">
+        <g
+           id="g288367">
+          <rect
+             style="fill:#e1e6fc;fill-opacity:0.968627;stroke-width:1.43816;stroke-linejoin:round;stroke-opacity:0"
+             id="rect59494-4"
+             width="92.828819"
+             height="184.97578"
+             x="160.60217"
+             y="78.405411" />
+          <text
+             xml:space="preserve"
+             style="font-size:7.05556px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+             x="-204.99522"
+             y="156.01869"
+             id="text62285-0"
+             transform="rotate(-90)"><tspan
+               sodipodi:role="line"
+               id="tspan62283-4"
+               style="font-weight:bold;fill:#95a6f4;fill-opacity:1;stroke-width:0.264583"
+               x="-204.99522"
+               y="156.01869">Male-only colony</tspan></text>
+          <g
+             id="g59419-3"
+             transform="translate(113.71551,147.46077)">
+            <rect
+               style="fill:#aebbf4;fill-opacity:0.967655;stroke-width:1.19458;stroke-linejoin:round;stroke-opacity:0"
+               id="rect8629-1"
+               width="54.453659"
+               height="9.966444"
+               x="71.406944"
+               y="8.9947834" />
+            <text
+               xml:space="preserve"
+               style="font-size:4.23333px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+               x="72.794548"
+               y="15.148993"
+               id="text3383-7"><tspan
+                 sodipodi:role="line"
+                 id="tspan3381-9"
+                 style="font-weight:bold;font-size:4.23333px;stroke-width:0.264583"
+                 x="72.794548"
+                 y="15.148993">Sorting pupae/larvae</tspan></text>
+          </g>
+          <g
+             id="g59424-4"
+             transform="translate(116.289,138.09489)">
+            <rect
+               style="fill:#aebbf5;fill-opacity:0.968627;stroke-width:1.5343;stroke-linejoin:round;stroke-opacity:0"
+               id="rect8997-7"
+               width="49.249233"
+               height="9.1691275"
+               x="71.171082"
+               y="32.106594" />
+            <text
+               xml:space="preserve"
+               style="font-size:4.23333px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+               x="72.975388"
+               y="37.872482"
+               id="text9001-0"><tspan
+                 sodipodi:role="line"
+                 id="tspan8999-1"
+                 style="font-weight:bold;font-size:4.23333px;stroke-width:0.264583"
+                 x="72.975388"
+                 y="37.872482">Irradiation of male</tspan></text>
+          </g>
+          <g
+             id="g59441-2"
+             transform="translate(108.78687,108.68803)">
+            <rect
+               style="fill:#aebbf6;fill-opacity:0.968627;stroke-width:2.29159;stroke-linejoin:round;stroke-opacity:0"
+               id="rect15423-4"
+               width="49.546307"
+               height="20.331543"
+               x="78.524673"
+               y="74.462059" />
+            <text
+               xml:space="preserve"
+               style="font-size:4.23333px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+               x="103.44949"
+               y="80.528854"
+               id="text15427-9"><tspan
+                 sodipodi:role="line"
+                 style="font-weight:bold;font-size:4.23333px;text-align:center;text-anchor:middle;stroke-width:0.264583"
+                 x="103.44949"
+                 y="80.528854"
+                 id="tspan16553-2">Loading male only</tspan><tspan
+                 sodipodi:role="line"
+                 style="font-weight:bold;font-size:4.23333px;text-align:center;text-anchor:middle;stroke-width:0.264583"
+                 x="103.44949"
+                 y="85.820518"
+                 id="tspan111929">cages with </tspan><tspan
+                 sodipodi:role="line"
+                 style="font-weight:bold;font-size:4.23333px;text-align:center;text-anchor:middle;stroke-width:0.264583"
+                 x="103.44949"
+                 y="91.112183"
+                 id="tspan111931">male pupae</tspan></text>
+          </g>
+          <g
+             id="g59446-0"
+             transform="translate(112.51968,94.017335)">
+            <rect
+               style="fill:#aebbf7;fill-opacity:0.968627;stroke-width:1.57755;stroke-linejoin:round;stroke-opacity:0"
+               id="rect20459-9"
+               width="62.042912"
+               height="8.2066822"
+               x="68.543556"
+               y="113.24379" />
+            <text
+               xml:space="preserve"
+               style="font-size:4.23333px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+               x="70.184784"
+               y="118.80001"
+               id="text20463-0"><tspan
+                 sodipodi:role="line"
+                 id="tspan20461-7"
+                 style="font-weight:bold;font-size:4.23333px;stroke-width:0.264583"
+                 x="70.184784"
+                 y="118.80001">Feeding until maturation</tspan></text>
+          </g>
+          <g
+             id="g59453-1"
+             transform="translate(109.39582,84.568565)">
+            <rect
+               style="fill:#aebbf7;fill-opacity:0.968627;stroke-width:2.31423;stroke-linejoin:round;stroke-opacity:0"
+               id="rect21869-6"
+               width="55.958027"
+               height="13.099036"
+               x="74.709862"
+               y="134.67873" />
+            <text
+               xml:space="preserve"
+               style="font-size:4.23333px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+               x="102.65218"
+               y="140.32751"
+               id="text21877-0"><tspan
+                 sodipodi:role="line"
+                 style="font-weight:bold;font-size:4.23333px;text-align:center;text-anchor:middle;stroke-width:0.264583"
+                 x="102.65218"
+                 y="140.32751"
+                 id="tspan24332-9">Chilling and collecting</tspan><tspan
+                 sodipodi:role="line"
+                 style="font-weight:bold;font-size:4.23333px;text-align:center;text-anchor:middle;stroke-width:0.264583"
+                 x="102.65218"
+                 y="145.61917"
+                 id="tspan128332">males</tspan></text>
+          </g>
+          <g
+             id="g59458-6"
+             transform="translate(125.19164,65.087035)">
+            <rect
+               style="fill:#aebbf8;fill-opacity:0.968627;stroke-width:1.28461;stroke-linejoin:round;stroke-opacity:0"
+               id="rect25776-0"
+               width="37.573471"
+               height="8.2771521"
+               x="68.106323"
+               y="171.0388" />
+            <text
+               xml:space="preserve"
+               style="font-size:4.23333px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+               x="69.786125"
+               y="176.60536"
+               id="text25780-2"><tspan
+                 sodipodi:role="line"
+                 id="tspan25778-8"
+                 style="font-weight:bold;font-size:4.23333px;stroke-width:0.264583"
+                 x="69.786125"
+                 y="176.60536">Packing males</tspan></text>
+          </g>
+          <g
+             id="g59463-4"
+             transform="translate(117.44644,55.406465)">
+            <rect
+               style="fill:#aebbf8;fill-opacity:0.968627;stroke-width:1.25508;stroke-linejoin:round;stroke-opacity:0"
+               id="rect25782-4"
+               width="52.584305"
+               height="11.825007"
+               x="68.3461"
+               y="192.77599" />
+            <text
+               xml:space="preserve"
+               style="font-size:4.23333px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+               x="94.886383"
+               y="198.13287"
+               id="text25786-8"><tspan
+                 sodipodi:role="line"
+                 id="tspan25784-0"
+                 style="font-weight:bold;font-size:4.23333px;text-align:center;text-anchor:middle;stroke-width:0.264583"
+                 x="94.886383"
+                 y="198.13287">Irradiation of packed </tspan><tspan
+                 sodipodi:role="line"
+                 style="font-weight:bold;font-size:4.23333px;text-align:center;text-anchor:middle;stroke-width:0.264583"
+                 x="94.886383"
+                 y="203.42453"
+                 id="tspan135834">adults males</tspan></text>
+          </g>
+          <path
+             style="fill:none;stroke:#000000;stroke-width:0.497103;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Send-0)"
+             d="m 212.08418,166.4064 9.4e-4,2.92326"
+             id="path63126-1" />
+          <path
+             style="fill:none;stroke:#000000;stroke-width:0.497103;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Send-0)"
+             d="m 212.08418,179.35501 9.4e-4,2.92326"
+             id="path63558-1" />
+          <path
+             style="fill:none;stroke:#000000;stroke-width:0.497103;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Send-0)"
+             d="m 212.08418,203.46604 9.4e-4,2.92326"
+             id="path63560-7" />
+          <path
+             style="fill:none;stroke:#000000;stroke-width:0.497103;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Send-0)"
+             d="m 212.08418,215.45221 9.4e-4,2.92327"
+             id="path63562-0" />
+          <path
+             style="fill:none;stroke:#000000;stroke-width:0.497103;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Send-0)"
+             d="m 212.08418,232.33073 9.4e-4,2.92329"
+             id="path63564-8" />
+          <path
+             style="fill:none;stroke:#000000;stroke-width:0.497103;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Send-0)"
+             d="m 212.08418,244.38739 9.4e-4,2.92329"
+             id="path63566-5" />
+          <g
+             id="g274064"
+             transform="translate(113.71551,72.318635)">
+            <rect
+               style="fill:#aebbf4;fill-opacity:0.967655;stroke-width:1.19458;stroke-linejoin:round;stroke-opacity:0"
+               id="rect274058"
+               width="54.453659"
+               height="9.966444"
+               x="71.406944"
+               y="8.9947834" />
+            <text
+               xml:space="preserve"
+               style="font-size:4.23333px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+               x="83.130859"
+               y="15.148993"
+               id="text274062"><tspan
+                 sodipodi:role="line"
+                 id="tspan274060"
+                 style="font-weight:bold;font-size:4.23333px;stroke-width:0.264583"
+                 x="83.130859"
+                 y="15.148993">Egg hatching</tspan></text>
+          </g>
+          <g
+             id="g274072"
+             transform="translate(116.289,62.952755)">
+            <rect
+               style="fill:#aebbf5;fill-opacity:0.968627;stroke-width:1.5343;stroke-linejoin:round;stroke-opacity:1;stroke:#000000"
+               id="rect274066"
+               width="49.249233"
+               height="9.1691275"
+               x="71.171082"
+               y="32.106594" />
+            <text
+               xml:space="preserve"
+               style="font-size:4.23333px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+               x="78.815872"
+               y="37.872482"
+               id="text274070"><tspan
+                 sodipodi:role="line"
+                 id="tspan274068"
+                 style="font-weight:bold;font-size:4.23333px;stroke-width:0.264583"
+                 x="78.815872"
+                 y="37.872482">Sex sorting L1</tspan></text>
+          </g>
+          <path
+             style="fill:none;stroke:#000000;stroke-width:0.497103;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Send-0)"
+             d="m 212.08418,91.264265 9.4e-4,2.92326"
+             id="path274074" />
+          <path
+             style="fill:none;stroke:#000000;stroke-width:0.497103;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Send-0)"
+             d="m 212.08418,104.21287 9.4e-4,2.92326"
+             id="path274076" />
+          <g
+             id="g274184"
+             transform="translate(113.71551,99.306305)">
+            <rect
+               style="fill:#aebbf4;fill-opacity:0.967655;stroke-width:1.19458;stroke-linejoin:round;stroke-opacity:0"
+               id="rect274178"
+               width="54.453659"
+               height="9.966444"
+               x="71.406944"
+               y="8.9947834" />
+            <text
+               xml:space="preserve"
+               style="font-size:4.23333px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+               x="74.986656"
+               y="15.148993"
+               id="text274182"><tspan
+                 sodipodi:role="line"
+                 id="tspan274180"
+                 style="font-weight:bold;font-size:4.23333px;stroke-width:0.264583"
+                 x="74.986656"
+                 y="15.148993">Larval trays loading</tspan></text>
+          </g>
+          <g
+             id="g274192"
+             transform="translate(116.289,89.940425)">
+            <rect
+               style="fill:#aebbf5;fill-opacity:0.968627;stroke-width:1.5343;stroke-linejoin:round;stroke-opacity:0"
+               id="rect274186"
+               width="49.249233"
+               height="9.1691275"
+               x="71.171082"
+               y="32.106594" />
+            <text
+               xml:space="preserve"
+               style="font-size:4.23333px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+               x="78.194717"
+               y="37.872482"
+               id="text274190"><tspan
+                 sodipodi:role="line"
+                 id="tspan274188"
+                 style="font-weight:bold;font-size:4.23333px;stroke-width:0.264583"
+                 x="78.194717"
+                 y="37.872482">Feeding larvae</tspan></text>
+          </g>
+          <path
+             style="fill:none;stroke:#000000;stroke-width:0.497103;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Send-0)"
+             d="m 212.08418,118.25193 9.4e-4,2.92326"
+             id="path274194" />
+          <path
+             style="fill:none;stroke:#000000;stroke-width:0.497103;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Send-0)"
+             d="m 212.08418,131.20054 9.4e-4,2.92326"
+             id="path274196" />
+          <g
+             id="g274204"
+             transform="translate(108.91383,102.6405)">
+            <rect
+               style="fill:#aebbf5;fill-opacity:0.968627;stroke-width:1.5343;stroke-linejoin:round;stroke-opacity:0"
+               id="rect274198"
+               width="63.999573"
+               height="18.138927"
+               x="71.171082"
+               y="32.106594" />
+            <text
+               xml:space="preserve"
+               style="font-size:4.23333px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+               x="103.33424"
+               y="37.872482"
+               id="text274202"><tspan
+                 sodipodi:role="line"
+                 id="tspan274200"
+                 style="font-weight:bold;font-size:4.23333px;text-align:center;text-anchor:middle;stroke-width:0.264583"
+                 x="103.33424"
+                 y="37.872482">Tilting and collection of</tspan><tspan
+                 sodipodi:role="line"
+                 style="font-weight:bold;font-size:4.23333px;text-align:center;text-anchor:middle;stroke-width:0.264583"
+                 x="103.33424"
+                 y="43.164146"
+                 id="tspan284286">pupae/larvae on first day</tspan><tspan
+                 sodipodi:role="line"
+                 style="font-weight:bold;font-size:4.23333px;text-align:center;text-anchor:middle;stroke-width:0.264583"
+                 x="103.33424"
+                 y="48.455807"
+                 id="tspan284288">of pupation</tspan></text>
+          </g>
+          <path
+             style="fill:none;stroke:#000000;stroke-width:0.497103;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Send-0)"
+             d="m 212.08418,152.89651 9.4e-4,2.92326"
+             id="path274206" />
+        </g>
+      </g>
+    </g>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.497103;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Send-0)"
+       d="m 279.57602,273.75271 9.4e-4,12.33149"
+       id="path63568-3"
+       sodipodi:nodetypes="cc" />
+    <rect
+       style="fill:#f5e8fc;fill-opacity:0.967655;stroke-width:1.60966;stroke-linejoin:round;stroke-opacity:0"
+       id="rect59494"
+       width="195.79167"
+       height="156.10417"
+       x="18.520834"
+       y="18.520832" />
+    <text
+       xml:space="preserve"
+       style="font-size:7.05556px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+       x="-118.71608"
+       y="13.274091"
+       id="text62285"
+       transform="rotate(-90)"><tspan
+         sodipodi:role="line"
+         id="tspan62283"
+         style="font-weight:bold;fill:#daabf6;fill-opacity:1;stroke-width:0.264583"
+         x="-118.71608"
+         y="13.274091">Rearing colony</tspan></text>
+    <g
+       id="g59419"
+       transform="translate(-28.526242,13.966315)">
+      <rect
+         style="fill:#ddaef4;fill-opacity:0.967655;stroke-width:1.37289;stroke-linejoin:round;stroke-opacity:0"
+         id="rect8629"
+         width="36.277851"
+         height="9.9664431"
+         x="80.230263"
+         y="8.9947834" />
+      <text
+         xml:space="preserve"
+         style="font-size:4.23333px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+         x="82.866257"
+         y="15.148993"
+         id="text3383"><tspan
+           sodipodi:role="line"
+           id="tspan3381"
+           style="font-weight:bold;font-size:4.23333px;stroke-width:0.264583"
+           x="82.866257"
+           y="15.148993">Egg hatching</tspan></text>
+    </g>
+    <g
+       id="g59424"
+       transform="translate(-25.952753,4.478755)">
+      <rect
+         style="fill:#ddaef4;fill-opacity:0.967655;stroke-width:1.5343;stroke-linejoin:round;stroke-opacity:1;stroke:#000000"
+         id="rect8997"
+         width="49.249233"
+         height="9.1691275"
+         x="71.171082"
+         y="32.106594" />
+      <text
+         xml:space="preserve"
+         style="font-size:4.23333px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+         x="78.815872"
+         y="37.872482"
+         id="text9001"><tspan
+           sodipodi:role="line"
+           id="tspan8999"
+           style="font-weight:bold;font-size:4.23333px;stroke-width:0.264583"
+           x="78.815872"
+           y="37.872482">Sex sorting L1</tspan></text>
+    </g>
+    <g
+       id="g59434"
+       transform="translate(-27.84682,7.382763)">
+      <rect
+         style="fill:#ddaef4;fill-opacity:0.967655;stroke-width:1.3265;stroke-linejoin:round;stroke-opacity:0"
+         id="rect13245"
+         width="38.485474"
+         height="8.7704697"
+         x="78.447029"
+         y="54.200363" />
+      <text
+         xml:space="preserve"
+         style="font-size:4.23333px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+         x="80.088776"
+         y="59.756584"
+         id="text13249"><tspan
+           sodipodi:role="line"
+           id="tspan13247"
+           style="font-weight:bold;font-size:4.23333px;stroke-width:0.264583"
+           x="80.088776"
+           y="59.756584">Feeding larvae</tspan></text>
+    </g>
+    <g
+       id="g59441"
+       transform="translate(-33.736775,-0.45065)">
+      <rect
+         style="fill:#ddaef4;fill-opacity:0.967655;stroke-width:2.67648;stroke-linejoin:round;stroke-opacity:0"
+         id="rect15423"
+         width="67.587494"
+         height="20.331543"
+         x="69.785973"
+         y="74.462059" />
+      <text
+         xml:space="preserve"
+         style="font-size:4.23333px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+         x="103.44949"
+         y="80.528854"
+         id="text15427"><tspan
+           sodipodi:role="line"
+           id="tspan15425"
+           style="font-weight:bold;font-size:4.23333px;text-align:center;text-anchor:middle;stroke-width:0.264583"
+           x="103.44949"
+           y="80.528854">Tilting and collection of</tspan><tspan
+           sodipodi:role="line"
+           style="font-weight:bold;font-size:4.23333px;text-align:center;text-anchor:middle;stroke-width:0.264583"
+           x="103.44949"
+           y="85.820518"
+           id="tspan16551">pupae/larvae on the first</tspan><tspan
+           sodipodi:role="line"
+           style="font-weight:bold;font-size:4.23333px;text-align:center;text-anchor:middle;stroke-width:0.264583"
+           x="103.44949"
+           y="91.112183"
+           id="tspan16553">day of pupation</tspan></text>
+    </g>
+    <g
+       id="g59446"
+       transform="translate(-25.916504,-15.243026)">
+      <rect
+         style="fill:#ddaef4;fill-opacity:0.967655;stroke-width:1.57755;stroke-linejoin:round;stroke-opacity:0"
+         id="rect20459"
+         width="54.431786"
+         height="8.7704697"
+         x="68.543556"
+         y="113.24379" />
+      <text
+         xml:space="preserve"
+         style="font-size:4.23333px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+         x="70.184784"
+         y="118.80001"
+         id="text20463"><tspan
+           sodipodi:role="line"
+           id="tspan20461"
+           style="font-weight:bold;font-size:4.23333px;stroke-width:0.264583"
+           x="70.184784"
+           y="118.80001">Sorting pupae/larvae</tspan></text>
+    </g>
+    <g
+       id="g59453"
+       transform="translate(16.930379,-15.253845)">
+      <rect
+         style="fill:#ddaef4;fill-opacity:0.967655;stroke-width:2.31423;stroke-linejoin:round;stroke-opacity:0"
+         id="rect21869"
+         width="54.830448"
+         height="18.736912"
+         x="74.709862"
+         y="134.67873" />
+      <text
+         xml:space="preserve"
+         style="font-size:4.23333px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+         x="102.65218"
+         y="140.32751"
+         id="text21877"><tspan
+           sodipodi:role="line"
+           style="font-weight:bold;font-size:4.23333px;text-align:center;text-anchor:middle;stroke-width:0.264583"
+           x="102.65218"
+           y="140.32751"
+           id="tspan21875">Loading larvae in the </tspan><tspan
+           sodipodi:role="line"
+           style="font-weight:bold;font-size:4.23333px;text-align:center;text-anchor:middle;stroke-width:0.264583"
+           x="102.65218"
+           y="145.61917"
+           id="tspan24330">colony cage with </tspan><tspan
+           sodipodi:role="line"
+           style="font-weight:bold;font-size:4.23333px;text-align:center;text-anchor:middle;stroke-width:0.264583"
+           x="102.65218"
+           y="150.91084"
+           id="tspan24332">desired sex ratio</tspan></text>
+    </g>
+    <g
+       id="g59458"
+       transform="translate(32.902378,-29.219197)">
+      <rect
+         style="fill:#ddaef4;fill-opacity:0.967655;stroke-width:1.28461;stroke-linejoin:round;stroke-opacity:0"
+         id="rect25776"
+         width="36.093529"
+         height="8.7704697"
+         x="68.106323"
+         y="171.0388" />
+      <text
+         xml:space="preserve"
+         style="font-size:4.23333px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+         x="69.786125"
+         y="176.60536"
+         id="text25780"><tspan
+           sodipodi:role="line"
+           id="tspan25778"
+           style="font-weight:bold;font-size:4.23333px;stroke-width:0.264583"
+           x="69.786125"
+           y="176.60536">Blood feeding</tspan></text>
+    </g>
+    <g
+       id="g59463"
+       transform="translate(32.6626,-38.528101)">
+      <rect
+         style="fill:#ddaef4;fill-opacity:0.967655;stroke-width:1.25508;stroke-linejoin:round;stroke-opacity:0"
+         id="rect25782"
+         width="36.093529"
+         height="8.3718128"
+         x="68.3461"
+         y="192.77599" />
+      <text
+         xml:space="preserve"
+         style="font-size:4.23333px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+         x="69.786125"
+         y="198.13287"
+         id="text25786"><tspan
+           sodipodi:role="line"
+           id="tspan25784"
+           style="font-weight:bold;font-size:4.23333px;stroke-width:0.264583"
+           x="69.786125"
+           y="198.13287">Egg collection</tspan></text>
+    </g>
+    <g
+       id="g59468"
+       transform="translate(35.399105,-50.088531)">
+      <rect
+         style="fill:#ddaef4;fill-opacity:0.967655;stroke-width:1.16895;stroke-linejoin:round;stroke-opacity:0"
+         id="rect25788"
+         width="31.309637"
+         height="8.3718128"
+         x="68.001541"
+         y="216.36604" />
+      <text
+         xml:space="preserve"
+         style="font-size:4.23333px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+         x="69.387466"
+         y="221.65369"
+         id="text25792"><tspan
+           sodipodi:role="line"
+           id="tspan25790"
+           style="font-weight:bold;font-size:4.23333px;stroke-width:0.264583"
+           x="69.387466"
+           y="221.65369">Egg storage</tspan></text>
+    </g>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.497103;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Send)"
+       d="m 69.622994,32.916286 9.4e-4,2.923266"
+       id="path63126" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.497103;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Send)"
+       d="m 69.622994,45.616294 9.4e-4,2.923266"
+       id="path63556" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.497103;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Send)"
+       d="m 69.622994,70.346196 9.4e-4,2.923266"
+       id="path63558" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.497103;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Send)"
+       d="m 69.622994,94.334894 9.4e-4,2.923266"
+       id="path63560" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.497103;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Send)"
+       d="m 118.83563,115.25435 9.4e-4,3.45244"
+       id="path63562"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.497103;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Send)"
+       d="m 118.83563,138.04443 9.4e-4,2.92329"
+       id="path63564" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.497103;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Send)"
+       d="m 118.83563,150.58533 9.4e-4,2.92329"
+       id="path63566" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.497103;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Send)"
+       d="m 118.83563,162.58776 9.4e-4,2.92329"
+       id="path63568" />
+    <g
+       id="g244819"
+       transform="translate(-25.952753,21.94126)">
+      <rect
+         style="fill:#ddaef4;fill-opacity:0.967655;stroke-width:1.5343;stroke-linejoin:round;stroke-opacity:0"
+         id="rect244813"
+         width="49.249233"
+         height="9.1691275"
+         x="71.171082"
+         y="26.814922" />
+      <text
+         xml:space="preserve"
+         style="font-size:4.23333px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+         x="78.815872"
+         y="32.580811"
+         id="text244817"><tspan
+           sodipodi:role="line"
+           id="tspan244815"
+           style="font-weight:bold;font-size:4.23333px;stroke-width:0.264583"
+           x="78.815872"
+           y="32.580811">L1 trays loading</tspan></text>
+    </g>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.497103;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Send)"
+       d="m 69.622994,57.787135 9.4e-4,2.923266"
+       id="path244821" />
+    <g
+       id="g289164"
+       transform="translate(-80.291399,2.1166667)">
+      <g
+         id="g289046"
+         transform="translate(58.403987,-144.25947)">
+        <rect
+           style="fill:#fbfbea;fill-opacity:1;stroke-width:1.67334;stroke-linejoin:round;stroke-opacity:0"
+           id="rect171682"
+           width="92.828819"
+           height="149.49664"
+           x="39.763935"
+           y="3.1234591" />
+        <text
+           xml:space="preserve"
+           style="font-size:7.05556px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+           x="-102.08001"
+           y="35.161503"
+           id="text171686"
+           transform="rotate(-90)"><tspan
+             sodipodi:role="line"
+             id="tspan171684"
+             style="font-weight:bold;fill:#eee160;fill-opacity:1;stroke-width:0.264583"
+             x="-102.08001"
+             y="35.161503">Filter colony 1</tspan></text>
+        <g
+           id="g171694"
+           transform="translate(-6.6388302,-2.6697452)">
+          <rect
+             style="fill:#f2f4ae;fill-opacity:0.967655;stroke-width:1.37289;stroke-linejoin:round;stroke-opacity:0"
+             id="rect171688"
+             width="36.277851"
+             height="9.9664431"
+             x="80.230263"
+             y="8.9947834" />
+          <text
+             xml:space="preserve"
+             style="font-size:4.23333px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+             x="82.866257"
+             y="15.148993"
+             id="text171692"><tspan
+               sodipodi:role="line"
+               id="tspan171690"
+               style="font-weight:bold;font-size:4.23333px;stroke-width:0.264583"
+               x="82.866257"
+               y="15.148993">Egg hatching</tspan></text>
+        </g>
+        <g
+           id="g171702"
+           transform="translate(-4.0653417,-12.157302)">
+          <rect
+             style="fill:#f2f4ae;fill-opacity:0.967655;stroke-width:1.5343;stroke-linejoin:round;stroke-opacity:1;stroke:#000000"
+             id="rect171696"
+             width="49.249233"
+             height="9.1691275"
+             x="71.171082"
+             y="32.106594" />
+          <text
+             xml:space="preserve"
+             style="font-size:4.23333px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+             x="78.815872"
+             y="37.862144"
+             id="text171700"><tspan
+               sodipodi:role="line"
+               id="tspan171698"
+               style="font-weight:bold;font-size:4.23333px;stroke-width:0.264583"
+               x="78.815872"
+               y="37.862144">Sex sorting L1</tspan></text>
+          <rect
+             style="fill:#f2f4ae;fill-opacity:0.967655;stroke-width:1.56205;stroke-linejoin:round;stroke-opacity:0"
+             id="rect181538"
+             width="51.046726"
+             height="9.1691275"
+             x="70.360214"
+             y="44.806606" />
+          <text
+             xml:space="preserve"
+             style="font-size:4.23333px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+             x="71.466454"
+             y="50.562157"
+             id="text181542"><tspan
+               sodipodi:role="line"
+               id="tspan181540"
+               style="font-weight:bold;font-size:4.23333px;stroke-width:0.264583"
+               x="71.466454"
+               y="50.562157">Larvae trays loading</tspan></text>
+        </g>
+        <g
+           id="g171710"
+           transform="translate(-5.9594085,-8.7241279)">
+          <rect
+             style="fill:#f2f4ae;fill-opacity:0.967655;stroke-width:1.3265;stroke-linejoin:round;stroke-opacity:0"
+             id="rect171704"
+             width="38.485474"
+             height="8.7704697"
+             x="78.447029"
+             y="54.200363" />
+          <text
+             xml:space="preserve"
+             style="font-size:4.23333px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+             x="80.088776"
+             y="59.756584"
+             id="text171708"><tspan
+               sodipodi:role="line"
+               id="tspan171706"
+               style="font-weight:bold;font-size:4.23333px;stroke-width:0.264583"
+               x="80.088776"
+               y="59.756584">Feeding larvae</tspan></text>
+        </g>
+        <g
+           id="g171722"
+           transform="translate(-11.849361,-16.55754)">
+          <rect
+             style="fill:#f2f4ae;fill-opacity:0.967655;stroke-width:2.67648;stroke-linejoin:round;stroke-opacity:0"
+             id="rect171712"
+             width="67.587494"
+             height="20.331543"
+             x="69.785973"
+             y="74.462059" />
+          <text
+             xml:space="preserve"
+             style="font-size:4.23333px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+             x="103.44949"
+             y="80.528854"
+             id="text171720"><tspan
+               sodipodi:role="line"
+               id="tspan171714"
+               style="font-weight:bold;font-size:4.23333px;text-align:center;text-anchor:middle;stroke-width:0.264583"
+               x="103.44949"
+               y="80.528854">Tilting and collection of</tspan><tspan
+               sodipodi:role="line"
+               style="font-weight:bold;font-size:4.23333px;text-align:center;text-anchor:middle;stroke-width:0.264583"
+               x="103.44949"
+               y="85.820518"
+               id="tspan171716">pupae/larvae on the first</tspan><tspan
+               sodipodi:role="line"
+               style="font-weight:bold;font-size:4.23333px;text-align:center;text-anchor:middle;stroke-width:0.264583"
+               x="103.44949"
+               y="91.112183"
+               id="tspan171718">day of pupation</tspan></text>
+        </g>
+        <rect
+           style="fill:#f2f4ae;fill-opacity:0.967655;stroke-width:1.57755;stroke-linejoin:round;stroke-opacity:1;stroke:#000000"
+           id="rect171724"
+           width="54.431786"
+           height="8.7704697"
+           x="64.514465"
+           y="81.893875" />
+        <text
+           xml:space="preserve"
+           style="font-size:4.23333px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+           x="70.198875"
+           y="87.450096"
+           id="text171728"><tspan
+             sodipodi:role="line"
+             id="tspan171726"
+             style="font-weight:bold;font-size:4.23333px;stroke-width:0.264583"
+             x="70.198875"
+             y="87.450096">Sex sorting pupae</tspan></text>
+        <g
+           id="g171742"
+           transform="translate(-10.394726,-40.356574)">
+          <rect
+             style="fill:#f2f4ae;fill-opacity:0.967655;stroke-width:2.31423;stroke-linejoin:round;stroke-opacity:0"
+             id="rect171732"
+             width="54.830448"
+             height="18.736912"
+             x="74.709862"
+             y="134.67873" />
+          <text
+             xml:space="preserve"
+             style="font-size:4.23333px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+             x="102.65218"
+             y="140.32751"
+             id="text171740"><tspan
+               sodipodi:role="line"
+               style="font-weight:bold;font-size:4.23333px;text-align:center;text-anchor:middle;stroke-width:0.264583"
+               x="102.65218"
+               y="140.32751"
+               id="tspan171734">Loading larvae in the </tspan><tspan
+               sodipodi:role="line"
+               style="font-weight:bold;font-size:4.23333px;text-align:center;text-anchor:middle;stroke-width:0.264583"
+               x="102.65218"
+               y="145.61917"
+               id="tspan171736">colony cage with </tspan><tspan
+               sodipodi:role="line"
+               style="font-weight:bold;font-size:4.23333px;text-align:center;text-anchor:middle;stroke-width:0.264583"
+               x="102.65218"
+               y="150.91084"
+               id="tspan171738">desired sex ratio</tspan></text>
+        </g>
+        <g
+           id="g171750"
+           transform="translate(5.5772637,-54.321926)">
+          <rect
+             style="fill:#f2f4ae;fill-opacity:0.967655;stroke-width:1.28461;stroke-linejoin:round;stroke-opacity:0"
+             id="rect171744"
+             width="36.093529"
+             height="8.7704697"
+             x="68.106323"
+             y="171.0388" />
+          <text
+             xml:space="preserve"
+             style="font-size:4.23333px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+             x="69.786125"
+             y="176.60536"
+             id="text171748"><tspan
+               sodipodi:role="line"
+               id="tspan171746"
+               style="font-weight:bold;font-size:4.23333px;stroke-width:0.264583"
+               x="69.786125"
+               y="176.60536">Blood feeding</tspan></text>
+        </g>
+        <g
+           id="g171758"
+           transform="translate(5.3374867,-63.63083)">
+          <rect
+             style="fill:#f2f4ae;fill-opacity:0.967655;stroke-width:1.25508;stroke-linejoin:round;stroke-opacity:0"
+             id="rect171752"
+             width="36.093529"
+             height="8.3718128"
+             x="68.3461"
+             y="192.77599" />
+          <text
+             xml:space="preserve"
+             style="font-size:4.23333px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+             x="69.786125"
+             y="198.13287"
+             id="text171756"><tspan
+               sodipodi:role="line"
+               id="tspan171754"
+               style="font-weight:bold;font-size:4.23333px;stroke-width:0.264583"
+               x="69.786125"
+               y="198.13287">Egg collection</tspan></text>
+        </g>
+        <g
+           id="g171766"
+           transform="translate(8.0739892,-75.19126)">
+          <rect
+             style="fill:#f2f4ae;fill-opacity:0.967655;stroke-width:1.16895;stroke-linejoin:round;stroke-opacity:0"
+             id="rect171760"
+             width="31.309637"
+             height="8.3718128"
+             x="68.001541"
+             y="216.36604" />
+          <text
+             xml:space="preserve"
+             style="font-size:4.23333px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+             x="69.387466"
+             y="221.65369"
+             id="text171764"><tspan
+               sodipodi:role="line"
+               id="tspan171762"
+               style="font-weight:bold;font-size:4.23333px;stroke-width:0.264583"
+               x="69.387466"
+               y="221.65369">Egg storage</tspan></text>
+        </g>
+        <path
+           style="fill:none;stroke:#000000;stroke-width:0.497103;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Send)"
+           d="m 91.510421,16.280229 9.4e-4,2.923266"
+           id="path171768" />
+        <path
+           style="fill:none;stroke:#000000;stroke-width:0.497103;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Send)"
+           d="m 91.510421,28.980237 9.4e-4,2.923266"
+           id="path171770" />
+        <path
+           style="fill:none;stroke:#000000;stroke-width:0.497103;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Send)"
+           d="m 91.510421,54.239306 9.4e-4,2.923266"
+           id="path171772" />
+        <path
+           style="fill:none;stroke:#000000;stroke-width:0.497103;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Send)"
+           d="m 91.510421,78.228004 9.4e-4,2.923266"
+           id="path171774" />
+        <path
+           style="fill:none;stroke:#000000;stroke-width:0.497103;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Send)"
+           d="m 91.510421,90.680739 9.4e-4,2.923266"
+           id="path171776" />
+        <path
+           style="fill:none;stroke:#000000;stroke-width:0.497103;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Send)"
+           d="m 91.510421,112.94168 9.4e-4,2.92329"
+           id="path171778" />
+        <path
+           style="fill:none;stroke:#000000;stroke-width:0.497103;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Send)"
+           d="m 91.510421,125.48258 9.4e-4,2.92329"
+           id="path171780" />
+        <path
+           style="fill:none;stroke:#000000;stroke-width:0.497103;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Send)"
+           d="m 91.510421,137.48501 9.4e-4,2.92329"
+           id="path171782" />
+        <path
+           style="fill:none;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Send)"
+           d="M 76.46457,145.52083 H 49.212487 l 10e-7,-133.61458 h 23.8125"
+           id="path171784"
+           sodipodi:nodetypes="cccc" />
+        <path
+           style="fill:none;stroke:#000000;stroke-width:0.497103;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Send)"
+           d="m 91.510421,41.680245 9.4e-4,2.923266"
+           id="path181544" />
+      </g>
+    </g>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Send)"
+       d="m 69.558754,7.3799301 0.0266,14.8450179"
+       id="path288584"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Send)"
+       d="m 119.0625,174.625 v 7.9375 h 96.57292 V 79.374999 h 63.5 l -4e-5,15.345839"
+       id="path288908"
+       sodipodi:nodetypes="cccccc" />
+    <g
+       id="g289875"
+       transform="translate(24.483655,2.1166667)">
+      <g
+         id="g289873"
+         transform="translate(58.403987,-144.25947)">
+        <rect
+           style="fill:#fbfbea;fill-opacity:1;stroke-width:1.67334;stroke-linejoin:round;stroke-opacity:0"
+           id="rect289761"
+           width="92.828819"
+           height="149.49664"
+           x="39.763935"
+           y="3.1234591" />
+        <text
+           xml:space="preserve"
+           style="font-size:7.05556px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+           x="-102.08001"
+           y="35.161503"
+           id="text289765"
+           transform="rotate(-90)"><tspan
+             sodipodi:role="line"
+             id="tspan289763"
+             style="font-weight:bold;fill:#eee160;fill-opacity:1;stroke-width:0.264583"
+             x="-102.08001"
+             y="35.161503">Filter colony 2</tspan></text>
+        <g
+           id="g289773"
+           transform="translate(-6.6388302,-2.6697452)">
+          <rect
+             style="fill:#f2f4ae;fill-opacity:0.967655;stroke-width:1.37289;stroke-linejoin:round;stroke-opacity:0"
+             id="rect289767"
+             width="36.277851"
+             height="9.9664431"
+             x="80.230263"
+             y="8.9947834" />
+          <text
+             xml:space="preserve"
+             style="font-size:4.23333px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+             x="82.866257"
+             y="15.148993"
+             id="text289771"><tspan
+               sodipodi:role="line"
+               id="tspan289769"
+               style="font-weight:bold;font-size:4.23333px;stroke-width:0.264583"
+               x="82.866257"
+               y="15.148993">Egg hatching</tspan></text>
+        </g>
+        <g
+           id="g289787"
+           transform="translate(-4.0653417,-12.157302)">
+          <rect
+             style="fill:#f2f4ae;fill-opacity:0.967655;stroke-width:1.5343;stroke-linejoin:round;stroke-opacity:1;stroke:#000000"
+             id="rect289775"
+             width="49.249233"
+             height="9.1691275"
+             x="71.171082"
+             y="32.106594" />
+          <text
+             xml:space="preserve"
+             style="font-size:4.23333px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+             x="78.815872"
+             y="37.862144"
+             id="text289779"><tspan
+               sodipodi:role="line"
+               id="tspan289777"
+               style="font-weight:bold;font-size:4.23333px;stroke-width:0.264583"
+               x="78.815872"
+               y="37.862144">Sex sorting L1</tspan></text>
+          <rect
+             style="fill:#f2f4ae;fill-opacity:0.967655;stroke-width:1.56205;stroke-linejoin:round;stroke-opacity:0"
+             id="rect289781"
+             width="51.046726"
+             height="9.1691275"
+             x="70.360214"
+             y="44.806606" />
+          <text
+             xml:space="preserve"
+             style="font-size:4.23333px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+             x="71.466454"
+             y="50.562157"
+             id="text289785"><tspan
+               sodipodi:role="line"
+               id="tspan289783"
+               style="font-weight:bold;font-size:4.23333px;stroke-width:0.264583"
+               x="71.466454"
+               y="50.562157">Larvae trays loading</tspan></text>
+        </g>
+        <g
+           id="g289795"
+           transform="translate(-5.9594085,-8.7241279)">
+          <rect
+             style="fill:#f2f4ae;fill-opacity:0.967655;stroke-width:1.3265;stroke-linejoin:round;stroke-opacity:0"
+             id="rect289789"
+             width="38.485474"
+             height="8.7704697"
+             x="78.447029"
+             y="54.200363" />
+          <text
+             xml:space="preserve"
+             style="font-size:4.23333px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+             x="80.088776"
+             y="59.756584"
+             id="text289793"><tspan
+               sodipodi:role="line"
+               id="tspan289791"
+               style="font-weight:bold;font-size:4.23333px;stroke-width:0.264583"
+               x="80.088776"
+               y="59.756584">Feeding larvae</tspan></text>
+        </g>
+        <g
+           id="g289807"
+           transform="translate(-11.849361,-16.55754)">
+          <rect
+             style="fill:#f2f4ae;fill-opacity:0.967655;stroke-width:2.67648;stroke-linejoin:round;stroke-opacity:0"
+             id="rect289797"
+             width="67.587494"
+             height="20.331543"
+             x="69.785973"
+             y="74.462059" />
+          <text
+             xml:space="preserve"
+             style="font-size:4.23333px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+             x="103.44949"
+             y="80.528854"
+             id="text289805"><tspan
+               sodipodi:role="line"
+               id="tspan289799"
+               style="font-weight:bold;font-size:4.23333px;text-align:center;text-anchor:middle;stroke-width:0.264583"
+               x="103.44949"
+               y="80.528854">Tilting and collection of</tspan><tspan
+               sodipodi:role="line"
+               style="font-weight:bold;font-size:4.23333px;text-align:center;text-anchor:middle;stroke-width:0.264583"
+               x="103.44949"
+               y="85.820518"
+               id="tspan289801">pupae/larvae on the first</tspan><tspan
+               sodipodi:role="line"
+               style="font-weight:bold;font-size:4.23333px;text-align:center;text-anchor:middle;stroke-width:0.264583"
+               x="103.44949"
+               y="91.112183"
+               id="tspan289803">day of pupation</tspan></text>
+        </g>
+        <g
+           id="g289815"
+           transform="translate(-4.0290927,-31.349916)"
+           style="stroke:none;stroke-opacity:1">
+          <rect
+             style="fill:#f2f4ae;fill-opacity:0.967655;stroke-width:1.57755;stroke-linejoin:round;stroke-opacity:1;stroke:#000000"
+             id="rect289809"
+             width="54.431786"
+             height="8.7704697"
+             x="68.543556"
+             y="113.24379" />
+          <text
+             xml:space="preserve"
+             style="font-size:4.23333px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583;stroke:none;stroke-opacity:1"
+             x="74.227966"
+             y="118.80001"
+             id="text289813"><tspan
+               sodipodi:role="line"
+               id="tspan289811"
+               style="font-weight:bold;font-size:4.23333px;stroke-width:0.264583;stroke:none;stroke-opacity:1"
+               x="74.227966"
+               y="118.80001">Sex sorting pupae</tspan></text>
+        </g>
+        <g
+           id="g289827"
+           transform="translate(-10.394726,-40.356574)">
+          <rect
+             style="fill:#f2f4ae;fill-opacity:0.967655;stroke-width:2.31423;stroke-linejoin:round;stroke-opacity:0"
+             id="rect289817"
+             width="54.830448"
+             height="18.736912"
+             x="74.709862"
+             y="134.67873" />
+          <text
+             xml:space="preserve"
+             style="font-size:4.23333px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+             x="102.65218"
+             y="140.32751"
+             id="text289825"><tspan
+               sodipodi:role="line"
+               style="font-weight:bold;font-size:4.23333px;text-align:center;text-anchor:middle;stroke-width:0.264583"
+               x="102.65218"
+               y="140.32751"
+               id="tspan289819">Loading larvae in the </tspan><tspan
+               sodipodi:role="line"
+               style="font-weight:bold;font-size:4.23333px;text-align:center;text-anchor:middle;stroke-width:0.264583"
+               x="102.65218"
+               y="145.61917"
+               id="tspan289821">colony cage with </tspan><tspan
+               sodipodi:role="line"
+               style="font-weight:bold;font-size:4.23333px;text-align:center;text-anchor:middle;stroke-width:0.264583"
+               x="102.65218"
+               y="150.91084"
+               id="tspan289823">desired sex ratio</tspan></text>
+        </g>
+        <g
+           id="g289835"
+           transform="translate(5.5772637,-54.321926)">
+          <rect
+             style="fill:#f2f4ae;fill-opacity:0.967655;stroke-width:1.28461;stroke-linejoin:round;stroke-opacity:0"
+             id="rect289829"
+             width="36.093529"
+             height="8.7704697"
+             x="68.106323"
+             y="171.0388" />
+          <text
+             xml:space="preserve"
+             style="font-size:4.23333px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+             x="69.786125"
+             y="176.60536"
+             id="text289833"><tspan
+               sodipodi:role="line"
+               id="tspan289831"
+               style="font-weight:bold;font-size:4.23333px;stroke-width:0.264583"
+               x="69.786125"
+               y="176.60536">Blood feeding</tspan></text>
+        </g>
+        <g
+           id="g289843"
+           transform="translate(5.3374867,-63.63083)">
+          <rect
+             style="fill:#f2f4ae;fill-opacity:0.967655;stroke-width:1.25508;stroke-linejoin:round;stroke-opacity:0"
+             id="rect289837"
+             width="36.093529"
+             height="8.3718128"
+             x="68.3461"
+             y="192.77599" />
+          <text
+             xml:space="preserve"
+             style="font-size:4.23333px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+             x="69.786125"
+             y="198.13287"
+             id="text289841"><tspan
+               sodipodi:role="line"
+               id="tspan289839"
+               style="font-weight:bold;font-size:4.23333px;stroke-width:0.264583"
+               x="69.786125"
+               y="198.13287">Egg collection</tspan></text>
+        </g>
+        <g
+           id="g289851"
+           transform="translate(8.0739892,-75.19126)">
+          <rect
+             style="fill:#f2f4ae;fill-opacity:0.967655;stroke-width:1.16895;stroke-linejoin:round;stroke-opacity:0"
+             id="rect289845"
+             width="31.309637"
+             height="8.3718128"
+             x="68.001541"
+             y="216.36604" />
+          <text
+             xml:space="preserve"
+             style="font-size:4.23333px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+             x="69.387466"
+             y="221.65369"
+             id="text289849"><tspan
+               sodipodi:role="line"
+               id="tspan289847"
+               style="font-weight:bold;font-size:4.23333px;stroke-width:0.264583"
+               x="69.387466"
+               y="221.65369">Egg storage</tspan></text>
+        </g>
+        <path
+           style="fill:none;stroke:#000000;stroke-width:0.497103;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Send)"
+           d="m 91.510421,16.280229 9.4e-4,2.923266"
+           id="path289853" />
+        <path
+           style="fill:none;stroke:#000000;stroke-width:0.497103;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Send)"
+           d="m 91.510421,28.980237 9.4e-4,2.923266"
+           id="path289855" />
+        <path
+           style="fill:none;stroke:#000000;stroke-width:0.497103;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Send)"
+           d="m 91.510421,54.239306 9.4e-4,2.923266"
+           id="path289857" />
+        <path
+           style="fill:none;stroke:#000000;stroke-width:0.497103;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Send)"
+           d="m 91.510421,78.228004 9.4e-4,2.923266"
+           id="path289859" />
+        <path
+           style="fill:none;stroke:#000000;stroke-width:0.497103;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Send)"
+           d="m 91.510421,90.680739 9.4e-4,2.923266"
+           id="path289861" />
+        <path
+           style="fill:none;stroke:#000000;stroke-width:0.497103;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Send)"
+           d="m 91.510421,112.94168 9.4e-4,2.92329"
+           id="path289863" />
+        <path
+           style="fill:none;stroke:#000000;stroke-width:0.497103;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Send)"
+           d="m 91.510421,125.48258 9.4e-4,2.92329"
+           id="path289865" />
+        <path
+           style="fill:none;stroke:#000000;stroke-width:0.497103;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Send)"
+           d="m 91.510421,137.48501 9.4e-4,2.92329"
+           id="path289867" />
+        <path
+           style="fill:none;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Send)"
+           d="M 76.46457,145.52083 H 49.212487 l 10e-7,-133.61458 h 23.8125"
+           id="path289869"
+           sodipodi:nodetypes="cccc" />
+        <path
+           style="fill:none;stroke:#000000;stroke-width:0.497103;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Send)"
+           d="m 91.510421,41.680245 9.4e-4,2.923266"
+           id="path289871" />
+      </g>
+    </g>
+    <g
+       id="g304404"
+       transform="translate(76.248812,13.966315)">
+      <rect
+         style="fill:#ddaef4;fill-opacity:0.967655;stroke-width:1.37289;stroke-linejoin:round;stroke-opacity:0"
+         id="rect304398"
+         width="36.277851"
+         height="9.9664431"
+         x="80.230263"
+         y="8.9947834" />
+      <text
+         xml:space="preserve"
+         style="font-size:4.23333px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+         x="82.866257"
+         y="15.148993"
+         id="text304402"><tspan
+           sodipodi:role="line"
+           id="tspan304400"
+           style="font-weight:bold;font-size:4.23333px;stroke-width:0.264583"
+           x="82.866257"
+           y="15.148993">Egg hatching</tspan></text>
+    </g>
+    <g
+       id="g304412"
+       transform="translate(78.822301,4.478755)">
+      <rect
+         style="fill:#ddaef4;fill-opacity:0.967655;stroke-width:1.5343;stroke-linejoin:round;stroke-opacity:1;stroke:#000000"
+         id="rect304406"
+         width="49.249233"
+         height="9.1691275"
+         x="71.171082"
+         y="32.106594" />
+      <text
+         xml:space="preserve"
+         style="font-size:4.23333px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+         x="78.815872"
+         y="37.872482"
+         id="text304410"><tspan
+           sodipodi:role="line"
+           id="tspan304408"
+           style="font-weight:bold;font-size:4.23333px;stroke-width:0.264583"
+           x="78.815872"
+           y="37.872482">Sex sorting L1</tspan></text>
+    </g>
+    <g
+       id="g304420"
+       transform="translate(76.928234,7.382763)">
+      <rect
+         style="fill:#ddaef4;fill-opacity:0.967655;stroke-width:1.3265;stroke-linejoin:round;stroke-opacity:0"
+         id="rect304414"
+         width="38.485474"
+         height="8.7704697"
+         x="78.447029"
+         y="54.200363" />
+      <text
+         xml:space="preserve"
+         style="font-size:4.23333px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+         x="80.088776"
+         y="59.756584"
+         id="text304418"><tspan
+           sodipodi:role="line"
+           id="tspan304416"
+           style="font-weight:bold;font-size:4.23333px;stroke-width:0.264583"
+           x="80.088776"
+           y="59.756584">Feeding larvae</tspan></text>
+    </g>
+    <g
+       id="g304432"
+       transform="translate(71.038279,-0.45065)">
+      <rect
+         style="fill:#ddaef4;fill-opacity:0.967655;stroke-width:2.67648;stroke-linejoin:round;stroke-opacity:0"
+         id="rect304422"
+         width="67.587494"
+         height="20.331543"
+         x="69.785973"
+         y="74.462059" />
+      <text
+         xml:space="preserve"
+         style="font-size:4.23333px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+         x="103.44949"
+         y="80.528854"
+         id="text304430"><tspan
+           sodipodi:role="line"
+           id="tspan304424"
+           style="font-weight:bold;font-size:4.23333px;text-align:center;text-anchor:middle;stroke-width:0.264583"
+           x="103.44949"
+           y="80.528854">Tilting and collection of</tspan><tspan
+           sodipodi:role="line"
+           style="font-weight:bold;font-size:4.23333px;text-align:center;text-anchor:middle;stroke-width:0.264583"
+           x="103.44949"
+           y="85.820518"
+           id="tspan304426">pupae/larvae on the first</tspan><tspan
+           sodipodi:role="line"
+           style="font-weight:bold;font-size:4.23333px;text-align:center;text-anchor:middle;stroke-width:0.264583"
+           x="103.44949"
+           y="91.112183"
+           id="tspan304428">day of pupation</tspan></text>
+    </g>
+    <g
+       id="g304440"
+       transform="translate(78.85855,-15.243026)">
+      <rect
+         style="fill:#ddaef4;fill-opacity:0.967655;stroke-width:1.57755;stroke-linejoin:round;stroke-opacity:0"
+         id="rect304434"
+         width="54.431786"
+         height="8.7704697"
+         x="68.543556"
+         y="113.24379" />
+      <text
+         xml:space="preserve"
+         style="font-size:4.23333px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+         x="70.184784"
+         y="118.80001"
+         id="text304438"><tspan
+           sodipodi:role="line"
+           id="tspan304436"
+           style="font-weight:bold;font-size:4.23333px;stroke-width:0.264583"
+           x="70.184784"
+           y="118.80001">Sorting pupae/larvae</tspan></text>
+    </g>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.497103;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Send)"
+       d="m 174.39848,32.916286 9.4e-4,2.923266"
+       id="path304442" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.497103;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Send)"
+       d="m 174.39848,45.616294 9.4e-4,2.923266"
+       id="path304444" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.497103;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Send)"
+       d="m 174.39848,70.346196 9.4e-4,2.923266"
+       id="path304446" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.497103;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Send)"
+       d="m 174.39848,94.334894 9.4e-4,2.923266"
+       id="path304448" />
+    <g
+       id="g304456"
+       transform="translate(78.822301,21.94126)">
+      <rect
+         style="fill:#ddaef4;fill-opacity:0.967655;stroke-width:1.5343;stroke-linejoin:round;stroke-opacity:0"
+         id="rect304450"
+         width="49.249233"
+         height="9.1691275"
+         x="71.171082"
+         y="26.814922" />
+      <text
+         xml:space="preserve"
+         style="font-size:4.23333px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+         x="78.815872"
+         y="32.580811"
+         id="text304454"><tspan
+           sodipodi:role="line"
+           id="tspan304452"
+           style="font-weight:bold;font-size:4.23333px;stroke-width:0.264583"
+           x="78.815872"
+           y="32.580811">L1 trays loading</tspan></text>
+    </g>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.497103;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Send)"
+       d="m 174.39848,57.787135 9.4e-4,2.923266"
+       id="path304458" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Send)"
+       d="m 174.33415,7.3799301 0.0266,14.8450179"
+       id="path304783"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+       d="m 69.503052,106.82163 v 8.24539 l 49.366618,-0.0352 55.42732,-4e-5 0,-8.24538"
+       id="path304898" />
+  </g>
+</svg>
