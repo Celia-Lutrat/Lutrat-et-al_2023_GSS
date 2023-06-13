@@ -1,15 +1,21 @@
 rm(list = ls())
 
+#Write full path to your working directory in mainDir.
+mainDir = ""
+# do not change subDir name, or change it in the output code as well
+subDir = "simulations"
+# creates the directories unless they already exist and sets working directory accordingly
+dir.create(file.path(mainDir, subDir), showWarnings = FALSE)
+setwd(mainDir)
+
 #### ~~~~~~~~ ####
 #### Packages ####
 
 library(tidyverse)
-library(strindr)
-library(purrr)
-library(tictoc)
+
 
 #### ~~~~~~~ ####
-#### INPUTS  ####
+#### DEFAULT INPUTS  ####
 #### > 1. Start up parameters and Summary ####
 parameter.lists = {list(
   production.goals = 
@@ -143,7 +149,7 @@ parameter.lists = {list(
     ),
   
   #### > 6. Diet requirements ####
-  # RAS
+  # No input. Calculated below.
   
   #### > 7. Storage of diet ingredients ####
   # (storage time in days, volume in m3, height in m, area in m2)
@@ -268,7 +274,7 @@ parameter.lists = {list(
     ),
   
   #### > 9. Environmental conditions ####
-  # RAS
+  # No input. Calculated below.
   
   #### > 10. Water requirements ####
   water.requirements = 
@@ -379,10 +385,10 @@ parameter.lists = {list(
       Manager_needed_mass_rearing = 1
       
       #### >>> 13.3.2. Release facility####
-      # RAS
+      # No input. Calculated below.
       
       #### >>> 13.3.3 Total ####
-      # RAS
+      # No input. Calculated below.
     ),
   
   #### > 14. Equipment budget ####
@@ -442,7 +448,7 @@ parameter.lists = {list(
       Workshop_equipment_MO_life_expectancy = 6
       
       #### >> 14.2. Total ####
-      # RAS 
+      # No input. Calculated below. 
     ),
   
   #### > 15. Diet and consumable costs####
@@ -1457,9 +1463,6 @@ model.function =
       }
     
     #### >> 8.7. Pupal sex sorter (for all) ####
-    # In GSS and GSS-CS the male pupae are double checked so number of 
-    # pupae to be sorted = this number. 
-    # In classical, take calculation from classical spreadsheet
     Number_of_pupae_to_be_sexed_per_day = 
       if(method %in% c('GSS', 'GSS-CS')){
         Number_of_L1_both_sex_to_be_sex_sorted_per_day_for_both_filters *
@@ -1927,8 +1930,8 @@ model.function =
     
     # Disclaimer: 
     # The construction costs will largely vary across countries. 
-    # The unit costs of the rearing rooms must include the cost of climatisation. 
-    # The construction costs does not include the purchase of the terrain for building. 
+    # The unit costs of the rearing rooms must include the cost of Air Conditioner. 
+    # The construction costs do not include the purchase of the land for building. 
     
     #### > 13. Workload ####
     #### >> 13.1. Mass rearing facility ####
@@ -3090,18 +3093,16 @@ model.function =
   }
 #### END FUNCTION ####
 #### ~~~~~~~~~~~~ ####
-#### TEST ####
-tic()
 
-result.simul = model.function(method = 'Size.manual', 
-                              parameter.lists = parameter.lists)
-toc()
-
-#### ~~~~~~~~~~~ ####
 #### SIMULATIONS ####
+# For using desired sex sorting method(s) remove unnecessary methods from the list below
+# potential methods are c('Size.manual', 'Size.auto','GSS', 'GSS-CS') 
 range.methods = c('Size.manual', 'Size.auto','GSS', 'GSS-CS')
+#Write as many production ranges as necessary to your comparison 
+#production ranges are in million pupae per week (Mpp/wk) 
+#range.production = c(5,10,20,50,100) in our example
 range.production = c(5,10,20,50,100)
-date.simul = 'date.of.your.simulation'
+date.simul = 'date-of-your-simulation'
 
 for(i in range.methods){
   for(j in range.production){
