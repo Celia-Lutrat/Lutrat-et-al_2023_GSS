@@ -26,7 +26,7 @@ wks.release = 26
 date.simul = '2023-06-13'
 
 #Write full path to your working directory in mainDir.
-mainDir = "~/Insync/celia.lutrat@laposte.net/OneDrive/Thèse/CIRAD/Publication 3- Article MyriaM/Stats/simulation-cost/test celia"
+mainDir = "add.path"
 # do not change subDir name, or change it in the output code as well
 subDir = "simulations"
 # creates the directories unless they already exist and sets working directory accordingly
