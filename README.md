@@ -30,9 +30,14 @@ DOI:
 
 > Mass rearing cost simulations: Mass rearing cost simulations scripts for comparing different sex sorting methods 
 
-	> "1-1-Simulation_cost_spreadsheet-Aedes-GSS-GSS-CS-manual.R": cost simulation R function adapted directly from the AIEA spreedsheet (https://www.iaea.org/resources/manual/spreadsheet-for-designing-aedes-mosquito-mass-rearing-and-release-facilities-version-10). It follows the structure of the IAEA spreadsheet with a simulation section at the end allowing simulation of several situations at once. To be used with the "2-Simulation_outputs_spreadsheet.R" code for producing a csv output and plots.
+	> "1-1-Simulation_cost_spreadsheet-Aedes-GSS-GSS-CS-manual.R": 
+	cost simulation R function adapted directly from the AIEA spreedsheet 
+	(https://www.iaea.org/resources/manual/spreadsheet-for-designing-aedes-mosquito-mass-rearing-and-release-facilities-version-10). 
+	It follows the structure of the IAEA spreadsheet with a simulation section at the end allowing simulation of several situations at once. 
+	To be used with the "2-Simulation_outputs_spreadsheet.R" code for producing a csv output and plots.
 	
-	> "1-2-Simulation_cost_spreadsheet-Aedes-user-friendly.R": a more user-friendly version of the above code. Fields to be modified are detailed at the beginning of the code. The csv output is produced in the same script.
+	> "1-2-Simulation_cost_spreadsheet-Aedes-user-friendly.R": a more user-friendly version of the above code. 
+	Fields to be modified are detailed at the beginning of the code. The csv output is produced in the same script.
 
 	> "2-Simulation_outputs_spreadsheet.R": analysis of the simulation outputs from 1-1 or 1-2.
 	
