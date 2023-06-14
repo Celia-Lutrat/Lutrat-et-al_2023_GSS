@@ -6,7 +6,7 @@ Lutrat et al. 2023: Combining two Genetic Sexing Strains allows sorting of non-t
 
 All scripts used to handle the datasets, build the models and plot the figures of this paper.
 
-DOI: 
+DOI: 10.1038/s42003-023-05030-7
 
 # Files:
 
